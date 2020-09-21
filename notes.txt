@@ -1,0 +1,44 @@
+### create new role/user cc
+pg_ctl -D /usr/local/var/postgres start
+psql postgres
+create role cc with login password 'cc';
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ cc        |                                                            | {}
+ yingcai   | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ALTER ROLE cc Superuser; 
+\du
+
+### create new db 
+psql postgres -U cc
+create database todoapp_development;
+\list
+                                List of databases
+        Name         |  Owner  | Encoding | Collate | Ctype |  Access privileges
+---------------------+---------+----------+---------+-------+---------------------
+ postgres            | yingcai | UTF8     | C       | C     |
+ template0           | yingcai | UTF8     | C       | C     | =c/yingcai         +
+                     |         |          |         |       | yingcai=CTc/yingcai
+ template1           | yingcai | UTF8     | C       | C     | =c/yingcai         +
+                     |         |          |         |       | yingcai=CTc/yingcai
+ test                | yingcai | UTF8     | C       | C     |
+ todoapp_development | cc      | UTF8     | C       | C     |
+(5 rows)
+
+\c todoapp_development
+\dt 
+       List of relations
+ Schema | Name  | Type  | Owner
+--------+-------+-------+-------
+ public | todos | table | cc
+(1 row)
+
+SQLAlchemy is a ORM, psycopg2 is a database driver. These are completely different things: 
+SQLAlchemy generates SQL statements and psycopg2 sends SQL statements to the database. 
+SQLAlchemy depends on psycopg2 or other database drivers to communicate with the database!
+
+
+
+
