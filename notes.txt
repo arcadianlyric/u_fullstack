@@ -40,5 +40,5 @@ SQLAlchemy generates SQL statements and psycopg2 sends SQL statements to the dat
 SQLAlchemy depends on psycopg2 or other database drivers to communicate with the database!
 
 
-
+export FLASK_DEBUG=true
 
