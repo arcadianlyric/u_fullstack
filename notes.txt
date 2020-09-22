@@ -1,3 +1,6 @@
+brew install postgres
+export PATH=/usr/local/bin/postgres:$PATH
+
 ### create new role/user cc
 pg_ctl -D /usr/local/var/postgres start
 psql postgres

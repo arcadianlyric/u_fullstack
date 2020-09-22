@@ -15,17 +15,29 @@ class Todo(db.Model):
 
 db.create_all()
 
-@app.route('/todos/create', methods=['POST'])
+app.route('/todos/create', method=['POST'])
 def create_todo():
-  description = request.form.get('description', '')
-  todo = Todo(description=description)
-  db.session.add(todo)
-  db.session.commit()
-  return redirect(url_for('index'))
+  error = False
+  body = {}
+  try:
+    description = request.form.get_json()['description']
+    todo = Todo(description=description)
+    db.session.add(todo)
+    db.session.commit()
+    body['description'] = todo.description
+  except:
+    error = True
+    db.session.rollback()
+    print(sys.exc_info())
+  finally:
+    db.session.close()
+  if error:
+    abort (400)
+  else:
+    return jsonify(body)
 
 
-
-@app.route('/')
+@app.route('/test')
 def index():
   return render_template('index.html', data=Todo.query.all())
 
