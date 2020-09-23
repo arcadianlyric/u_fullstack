@@ -45,6 +45,7 @@ export FLASK_DEBUG=true
 ### migrate
 Flask db stamp head
 Flask db migrate
+Fix /444acfcfde78_.py
 Flask db upgrade
 
 
