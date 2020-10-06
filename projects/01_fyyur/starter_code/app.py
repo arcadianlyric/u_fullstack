@@ -15,6 +15,8 @@ from forms import *
 
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
+from sqlalchemy import func
+from sqlalchemy.sql.expression import case
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -33,7 +35,7 @@ migrate = Migrate(app, db)
 
 
 class Venue(db.Model):
-    __tablename__ = 'Venue'
+    __tablename__ = 'venue'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -43,16 +45,16 @@ class Venue(db.Model):
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
     genres = db.Column(db.String(120))
     website = db.Column(db.String(500))
     seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
     show = db.relationship('Show', backref='venue')
+    # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 
 class Artist(db.Model):
-    __tablename__ = 'Artist'
+    __tablename__ = 'artist'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -61,24 +63,25 @@ class Artist(db.Model):
     phone = db.Column(db.String(120))
     genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
     facebook_link = db.Column(db.String(120))
     website = db.Column(db.String(500))
-    seeking_talent = db.Column(db.Boolean)
+    seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
     show = db.relationship('Show', backref='artist')
+    # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 
 class Show(db.Model):
-  __tablename__ = 'Show'
+  __tablename__ = 'show'
 
   id = db.Column(db.Integer, primary_key=True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
   artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
   start_time = db.Column(db.DateTime, nullable=False)
 
+db.create_all()
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
@@ -117,9 +120,9 @@ def venues():
   city_states = Venue.query.distinct('city', 'state').all()
   for city_state in city_states:
     venues = db.session.query(Venue.id, Venue.name,
-                              fun.sum(case([Show.start_time > datetime.now(), 1], else_=0)).label('num_upcoming_shows'))\
-                                .join(Show).filter(Venue.city == city_state.city, Venue.state == city_state.state)\
-                                .all()
+                              func.sum(case([(Show.start_time > datetime.now(), 1)], else_=0)).label('num_upcoming_shows'))\
+                                .outerjoin(Show).group_by(Venue.id, Venue.name).filter(Venue.city==city_state.city, Venue.state==city_state.state).all()
+                                
     data.append({
       "city": city_state.city,
       "state": city_state.state,
@@ -134,7 +137,7 @@ def search_venues():
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
   search_term = request.form.get('search_term', '')
   search_result = Venue.query.filter(
-      Venue.name.ilike('%{}%'.format(search_term))).all()
+      Venue.name.ilike('%{}%'.format(search_term)))
   response={
     "count": search_result.count(),
     "data": search_result
@@ -155,6 +158,8 @@ def show_venue(venue_id):
       Show.venue_id == venue_id).filter(Show.start_time > datetime.now())
   upcoming_shows = upcoming_shows_query.all()
   upcoming_shows_count = upcoming_shows_query.count()
+  print(past_shows)
+  print(past_shows_count)
   return render_template('pages/show_venue.html', venue=data, past_shows=past_shows, past_shows_count=past_shows_count,
     upcoming_shows=upcoming_shows, upcoming_shows_count=upcoming_shows_count)
 
@@ -222,7 +227,7 @@ def search_artists():
   # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
   # search for "band" should return "The Wild Sax Band".
   search_term = request.form.get('search_term', '')
-  artists = Artist.query.filter(Artist.name.ilike('%{}%'.format(search_term))).all()
+  artists = Artist.query.filter(Artist.name.ilike('%{}%'.format(search_term)))
   response = {
     'count': artists.count(),
     'data': artists
@@ -234,7 +239,7 @@ def show_artist(artist_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
   data = Artist.query.get(artist_id)
-  past_shows_query = Show.query.filter(Show.artist_id == artist_id).filter(
+  past_shows_query = Show.query.filter(Show.artist_id == artist_id).filter(\
       Show.start_time <= datetime.now())
   past_shows = past_shows_query.all()
   past_shows_count = past_shows_query.count()
@@ -242,8 +247,8 @@ def show_artist(artist_id):
       Show.artist_id == artist_id).filter(Show.start_time > datetime.now())
   upcoming_shows = upcoming_shows_query.all()
   upcoming_shows_count = upcoming_shows_query.count()
-  return render_template('pages/show_artist.html', artist=data, past_shows=past_shows, past_shows_count=past_shows_count,
-    upcoming_shows=upcoming_shows, upcoming_shows_count=upcoming_shows_count)
+  return render_template('pages/show_artist.html', artist=data, past_shows=past_shows,\
+     past_shows_count=past_shows_count, upcoming_shows=upcoming_shows, upcoming_shows_count=upcoming_shows_count)
 
 
 #  Update
@@ -357,9 +362,18 @@ def shows():
   # displays list of shows at /shows
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
-  
+  data = []
   shows = Show.query.all() 
-  data = list(map(Show.details, shows))
+  for show in shows:
+    data.append({
+      'venue_id': show.venue_id,
+      'venue_name': show.venue.name,
+      'start_time': str(show.start_time),
+      'artist_id': show.artist_id,
+      'artist_name': show.artist.name,
+      'artist_image_link': show.artist.image_link
+    })
+  
   return render_template('pages/shows.html', shows=data)
 
 @ app.route('/shows/create')
@@ -384,7 +398,7 @@ def create_show_submission():
   # TODO: on unsuccessful db insert, flash an error instead.
   # e.g., flash('An error occurred. Show could not be listed.')
   except:
-    db.ssession.rollback()
+    db.session.rollback()
     flash('An error occurred. Show could not be listed.')
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   finally:
