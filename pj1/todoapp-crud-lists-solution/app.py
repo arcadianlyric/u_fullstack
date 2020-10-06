@@ -4,15 +4,23 @@ from flask_migrate import Migrate
 import sys
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:xyz@localhost:5432/todoapp'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cc:cc@localhost:5432/todoapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
+class TodoList(db.Model):
+    __tablename__ = 'todolists'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    todos = db.relationship('Todo', backref='list', lazy=True)
+
+    def __repr__(self):
+        return f'<TodoList ID: {self.id}, name: {self.name}, todos: {self.todos}>'
 
 
 class Todo(db.Model):
-    __tablename__ = "todos"
+    __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(), nullable=False)
     complete = db.Column(db.Boolean, nullable=False, default=False)
@@ -23,14 +31,6 @@ class Todo(db.Model):
         return f'<Todo ID: {self.id}, description: {self.description}, complete: {self.complete}>'
 
 
-class TodoList(db.Model):
-    __tablename__ = "todolists"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    todos = db.relationship('Todo', backref='list', lazy=True)
-
-    def __repr__(self):
-        return f'<TodoList ID: {self.id}, name: {self.name}, todos: {self.todos}>'
 
 
 @app.route('/todos/create', methods=['POST'])

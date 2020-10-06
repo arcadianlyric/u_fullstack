@@ -1,5 +1,10 @@
 Fyyur
 -----
+## Notes
+* with error capture
+* with Blueprint
+* with CSRFProtect
+
 
 ## Introduction
 

@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 import sys
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cc@localhost:5432/todoapp'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cc:cc@localhost:5432/todoapp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -61,3 +61,6 @@ def set_completed_todo(todo_id):
 @app.route('/')
 def index():
   return render_template('index.html', todos=Todo.query.order_by('id').all())
+
+if __name__ == '__main__':
+    app.run()

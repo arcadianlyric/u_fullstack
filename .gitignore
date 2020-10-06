@@ -1,2 +1,6 @@
-
+node_modules
+node
 *.pyc
+node_modules/bootstrap/CHANGELOG.md
+package-lock.json
+package.json

@@ -2,6 +2,8 @@
 pg_ctl -D /usr/local/var/postgres start
 psql postgres
 create role cc with login password 'cc';
+psql postgres -U cc -W
+(Input pwd)
 postgres=# \du
                                    List of roles
  Role name |                         Attributes                         | Member of
@@ -47,5 +49,14 @@ Flask db stamp head
 Flask db migrate
 Fix /444acfcfde78_.py
 Flask db upgrade
+
+
+### issue
+1/ todo_id
+
+### pj1
+1/ write info to db
+
+
 
 
