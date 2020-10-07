@@ -2,3 +2,9 @@ babel
 python-dateutil==2.6.0
 flask-moment
 flask-wtf
+flask-sqlalchemy
+flask-migrate
+psycopg2-binary
+Flask==1.1.2
+Jinja2==2.11.2
+Werkzeug==1.0.1
