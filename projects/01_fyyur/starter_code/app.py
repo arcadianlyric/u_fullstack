@@ -5,7 +5,15 @@
 import json
 import dateutil.parser
 import babel
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
+from flask import (
+  Flask, 
+  render_template, 
+  request, 
+  Response, 
+  flash, 
+  redirect, 
+  url_for
+)
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 import logging
@@ -17,71 +25,16 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import func
 from sqlalchemy.sql.expression import case
+from models import app, db, Venue, Artist, Show
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
-app = Flask(__name__)
-# csrf = CSRFProtect(app)
 moment = Moment(app)
 app.config.from_object('config')
-db = SQLAlchemy(app)
-
-# TODO: connect to a local postgresql database
-migrate = Migrate(app, db)
-#----------------------------------------------------------------------------#
-# Models.
-#----------------------------------------------------------------------------#
+db.init_app(app)
 
 
-class Venue(db.Model):
-    __tablename__ = 'venue'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    website = db.Column(db.String(500))
-    seeking_talent = db.Column(db.Boolean)
-    seeking_description = db.Column(db.String)
-    show = db.relationship('Show', backref='venue')
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
-
-
-class Artist(db.Model):
-    __tablename__ = 'artist'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
-    website = db.Column(db.String(500))
-    seeking_venue = db.Column(db.Boolean)
-    seeking_description = db.Column(db.String)
-    show = db.relationship('Show', backref='artist')
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-
-
-class Show(db.Model):
-  __tablename__ = 'show'
-
-  id = db.Column(db.Integer, primary_key=True)
-  venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
-  artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
-  start_time = db.Column(db.DateTime, nullable=False)
-
-db.create_all()
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
@@ -116,19 +69,31 @@ def venues():
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
 
-  data = []
-  city_states = Venue.query.distinct('city', 'state').all()
-  for city_state in city_states:
-    venues = db.session.query(Venue.id, Venue.name,
-                              func.sum(case([(Show.start_time > datetime.now(), 1)], else_=0)).label('num_upcoming_shows'))\
-                                .outerjoin(Show).group_by(Venue.id, Venue.name).filter(Venue.city==city_state.city, Venue.state==city_state.state).all()
+  # data = []
+  # city_states = Venue.query.distinct('city', 'state').all()
+  # for city_state in city_states:
+  #   venues = db.session.query(Venue.id, Venue.name,
+  #                             func.sum(case([(Show.start_time > datetime.now(), 1)], else_=0)).label('num_upcoming_shows'))\
+  #                               .outerjoin(Show).group_by(Venue.id, Venue.name).filter(Venue.city==city_state.city, Venue.state==city_state.state).all()
                                 
-    data.append({
-      "city": city_state.city,
-      "state": city_state.state,
-      "venues": venues
-    })
-  return render_template('pages/venues.html', areas=data)
+  #   data.append({
+  #     "city": city_state.city,
+  #     "state": city_state.state,
+  #     "venues": venues
+  #   })
+  locals = []
+  venues = Venue.query.all()
+  for place in Venue.query.distinct(Venue.city, Venue.state).all():
+      locals.append({
+          'city': place.city,
+          'state': place.state,
+          'venues': [{
+              'id': venue.id,
+              'name': venue.name,
+          } for venue in venues if
+              venue.city == place.city and venue.state == place.state]
+      })
+  return render_template('pages/venues.html', areas=locals)
 
 @ app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -149,7 +114,18 @@ def search_venues():
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
-  data = Venue.query.get(venue_id)
+  instance = Venue.query.get(venue_id)
+  data = {
+      'id': instance.id,
+      'name': instance.name,
+      'genres': instance.genres,
+      'phone': instance.phone,
+      'website': instance.website,
+      'facebook_link': instance.facebook_link,
+      'seeking_description': instance.seeking_description,
+      'image_link': instance.image_link,
+      'seeking_talent': instance.seeking_talent
+  }
   past_shows_query = Show.query.filter(Show.venue_id == venue_id).filter(
       Show.start_time <= datetime.now())
   past_shows = past_shows_query.all()
@@ -158,10 +134,13 @@ def show_venue(venue_id):
       Show.venue_id == venue_id).filter(Show.start_time > datetime.now())
   upcoming_shows = upcoming_shows_query.all()
   upcoming_shows_count = upcoming_shows_query.count()
-  print(past_shows)
-  print(past_shows_count)
-  return render_template('pages/show_venue.html', venue=data, past_shows=past_shows, past_shows_count=past_shows_count,
-    upcoming_shows=upcoming_shows, upcoming_shows_count=upcoming_shows_count)
+  data.update({
+    'past_shows': past_shows,
+    'past_shows_count': past_shows_count,
+    'upcoming_shows': upcoming_shows,
+    'upcoming_shows_count': upcoming_shows_count
+  })
+  return render_template('pages/show_venue.html', venue=data)
 
 #  Create Venue
 #  ----------------------------------------------------------------
@@ -238,7 +217,19 @@ def search_artists():
 def show_artist(artist_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
-  data = Artist.query.get(artist_id)
+  instance = Artist.query.get(artist_id)
+  data = {
+      'id': instance.id,
+      'name': instance.name,
+      'genres': instance.genres,
+      'phone': instance.phone,
+      'website': instance.website,
+      'facebook_link': instance.facebook_link,
+      'seeking_description': instance.seeking_description,
+      'image_link': instance.image_link,
+      'seeking_venue': instance.seeking_venue
+
+  }
   past_shows_query = Show.query.filter(Show.artist_id == artist_id).filter(\
       Show.start_time <= datetime.now())
   past_shows = past_shows_query.all()
@@ -247,8 +238,13 @@ def show_artist(artist_id):
       Show.artist_id == artist_id).filter(Show.start_time > datetime.now())
   upcoming_shows = upcoming_shows_query.all()
   upcoming_shows_count = upcoming_shows_query.count()
-  return render_template('pages/show_artist.html', artist=data, past_shows=past_shows,\
-     past_shows_count=past_shows_count, upcoming_shows=upcoming_shows, upcoming_shows_count=upcoming_shows_count)
+  data.update({
+    'past_shows': past_shows,
+    'past_shows_count': past_shows_count,
+    'upcoming_shows': upcoming_shows,
+    'upcoming_shows_count': upcoming_shows_count
+  })
+  return render_template('pages/show_artist.html', artist=data)
 
 
 #  Update
