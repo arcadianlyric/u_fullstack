@@ -26,6 +26,7 @@ from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import func
 from sqlalchemy.sql.expression import case
 from models import app, db, Venue, Artist, Show
+from datetime import datetime
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -69,18 +70,6 @@ def venues():
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
 
-  # data = []
-  # city_states = Venue.query.distinct('city', 'state').all()
-  # for city_state in city_states:
-  #   venues = db.session.query(Venue.id, Venue.name,
-  #                             func.sum(case([(Show.start_time > datetime.now(), 1)], else_=0)).label('num_upcoming_shows'))\
-  #                               .outerjoin(Show).group_by(Venue.id, Venue.name).filter(Venue.city==city_state.city, Venue.state==city_state.state).all()
-                                
-  #   data.append({
-  #     "city": city_state.city,
-  #     "state": city_state.state,
-  #     "venues": venues
-  #   })
   locals = []
   venues = Venue.query.all()
   for place in Venue.query.distinct(Venue.city, Venue.state).all():
@@ -114,6 +103,21 @@ def search_venues():
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
+
+  past_shows = db.session.query(Artist, Show).join(Show).join(Venue).\
+    filter(
+        Show.venue_id == venue_id,
+        Show.artist_id == Artist.id,
+        Show.start_time < datetime.now()
+    ).\
+    all()
+  upcoming_shows = db.session.query(Artist, Show).join(Show).join(Venue).\
+  filter(
+      Show.venue_id == venue_id,
+      Show.artist_id == Artist.id,
+      Show.start_time > datetime.now()
+  ).\
+  all()
   instance = Venue.query.get(venue_id)
   data = {
       'id': instance.id,
@@ -124,22 +128,23 @@ def show_venue(venue_id):
       'facebook_link': instance.facebook_link,
       'seeking_description': instance.seeking_description,
       'image_link': instance.image_link,
-      'seeking_talent': instance.seeking_talent
+      'seeking_talent': instance.seeking_talent,
+      'past_shows': [{
+            'artist_id': artist.id,
+            "artist_name": artist.name,
+            "artist_image_link": artist.image_link,
+            "start_time": show.start_time.strftime("%m/%d/%Y, %H:%M")
+        } for artist, show in past_shows],
+        'upcoming_shows': [{
+            'artist_id': artist.id,
+            'artist_name': artist.name,
+            'artist_image_link': artist.image_link,
+            'start_time': show.start_time.strftime("%m/%d/%Y, %H:%M")
+        } for artist, show in upcoming_shows],
+        'past_shows_count': len(past_shows),
+        'upcoming_shows_count': len(upcoming_shows)
   }
-  past_shows_query = Show.query.filter(Show.venue_id == venue_id).filter(
-      Show.start_time <= datetime.now())
-  past_shows = past_shows_query.all()
-  past_shows_count = past_shows_query.count()
-  upcoming_shows_query = Show.query.filter(
-      Show.venue_id == venue_id).filter(Show.start_time > datetime.now())
-  upcoming_shows = upcoming_shows_query.all()
-  upcoming_shows_count = upcoming_shows_query.count()
-  data.update({
-    'past_shows': past_shows,
-    'past_shows_count': past_shows_count,
-    'upcoming_shows': upcoming_shows,
-    'upcoming_shows_count': upcoming_shows_count
-  })
+  
   return render_template('pages/show_venue.html', venue=data)
 
 #  Create Venue
@@ -217,6 +222,20 @@ def search_artists():
 def show_artist(artist_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
+  past_shows = db.session.query(Venue, Show).join(Show).join(Artist).\
+    filter(
+        Show.venue_id == Venue.id,
+        Show.artist_id == artist_id,
+        Show.start_time < datetime.now()
+    ).\
+    all()
+  upcoming_shows = db.session.query(Venue, Show).join(Show).join(Artist).\
+  filter(
+      Show.venue_id == Venue.id,
+      Show.artist_id == artist_id,
+      Show.start_time > datetime.now()
+  ).\
+  all()
   instance = Artist.query.get(artist_id)
   data = {
       'id': instance.id,
@@ -227,23 +246,22 @@ def show_artist(artist_id):
       'facebook_link': instance.facebook_link,
       'seeking_description': instance.seeking_description,
       'image_link': instance.image_link,
-      'seeking_venue': instance.seeking_venue
-
+      'seeking_venue': instance.seeking_venue,
+      'past_shows': [{
+            'venue_id': venue.id,
+            "venue_name": venue.name,
+            "venue_image_link": venue.image_link,
+            "start_time": show.start_time.strftime("%m/%d/%Y, %H:%M")
+        } for venue, show in past_shows],
+        'upcoming_shows': [{
+            'venue_id': venue.id,
+            "venue_name": venue.name,
+            "venue_image_link": venue.image_link,
+            'start_time': show.start_time.strftime("%m/%d/%Y, %H:%M")
+        } for venue, show in upcoming_shows],
+        'past_shows_count': len(past_shows),
+        'upcoming_shows_count': len(upcoming_shows)
   }
-  past_shows_query = Show.query.filter(Show.artist_id == artist_id).filter(\
-      Show.start_time <= datetime.now())
-  past_shows = past_shows_query.all()
-  past_shows_count = past_shows_query.count()
-  upcoming_shows_query = Show.query.filter(
-      Show.artist_id == artist_id).filter(Show.start_time > datetime.now())
-  upcoming_shows = upcoming_shows_query.all()
-  upcoming_shows_count = upcoming_shows_query.count()
-  data.update({
-    'past_shows': past_shows,
-    'past_shows_count': past_shows_count,
-    'upcoming_shows': upcoming_shows,
-    'upcoming_shows_count': upcoming_shows_count
-  })
   return render_template('pages/show_artist.html', artist=data)
 
 

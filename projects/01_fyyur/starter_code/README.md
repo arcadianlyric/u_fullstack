@@ -2,8 +2,8 @@ Fyyur
 -----
 ## Notes
 * with error capture
-* with Blueprint
-* with CSRFProtect
+* fixed multiple bugs in html
+* implemented fields in app.py and html
 
 
 ## Introduction

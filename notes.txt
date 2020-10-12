@@ -1,3 +1,5 @@
+Brew install node
+
 ### create new role/user cc
 pg_ctl -D /usr/local/var/postgres start
 psql postgres
@@ -44,6 +46,8 @@ SQLAlchemy depends on psycopg2 or other database drivers to communicate with the
 
 export FLASK_DEBUG=true
 
+Transaction
+
 ### migrate
 Flask db stamp head
 Flask db migrate
@@ -55,8 +59,34 @@ Flask db upgrade
 1/ todo_id
 
 ### pj1
+127.0.0.1= local IP
+5000= 端口号 flask程序
 1/ write info to db
+db.create_all()
+
+### pj1 code review
+1/ virtual env
+conda create -name trivia_api python=3.7.4 (otherwise use /usr/bi/python)
+Requirement.txt
+2/ module
+CSRFProtect
+Endpoints
 
 
+### pj2
+Jupiter/ bash run.sh not using virtual env
+unitest backend
+# ran 0 tests
+Run flask first (bash run.sh)
+python test_flaskr.py
 
+# postman 
+
+# anaconda virtual env, vc code not using env
+https://blog.csdn.net/liubingjun07/article/details/88833885
+
+# http code
+https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status
+
+# endpoint
 
