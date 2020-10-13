@@ -6,7 +6,7 @@ import random
 
 from models import setup_db, Book
 
-BOOKS_PER_SHELF = 8
+BOOKS_PER_SHELF = 4
 
 def paginate_books(request, selection):
   page = request.args.get('page', 1, type=int)
@@ -121,6 +121,31 @@ def create_app(test_config=None):
   #        If you use a different argument, make sure to update it in the frontend code. 
   #        The endpoint will need to return success value, a list of books for the search and the number of books with the search term
   #        Response body keys: 'success', 'books' and 'total_books'
+  @app.route('/books', methods=['GET'])
+  def get_book():
+    body = request.get_json()
+
+    new_title = body.get('title', None)
+    new_author = body.get('author', None)
+    new_rating = body.get('rating', None)
+
+    try:
+      book = Book(title=new_title, author=new_author, rating=new_rating)
+      book.insert()
+
+      selection = Book.query.order_by(Book.id).all()
+      current_books = paginate_books(request, selection)
+
+      return jsonify({
+        'success': True,
+        'created': book.id,
+        'books': current_books,
+        'total_books': len(Book.query.all())
+      })
+
+    except:
+      abort(422)
+
 
   @app.errorhandler(404)
   def not_found(error):
