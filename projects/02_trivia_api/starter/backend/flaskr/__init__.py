@@ -8,6 +8,22 @@ from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
+def paginate(request, selections):
+  '''
+  Simple pagination.
+  Returns a tuple with elements:
+  - current page number
+  - total items count (before pagination)
+  - the current page items
+  '''
+  page = request.args.get('page', 1, type=int)
+  # page_size = request.args.get('limit', QUESTIONS_PER_PAGE, type=int)
+  page_size = QUESTIONS_PER_PAGE
+  start = (page - 1) * page_size
+  end = start + page_size
+  items = [s.format() for s in selections]
+  return page, len(items), items[start:end]
+  
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
@@ -44,15 +60,18 @@ def create_app(test_config=None):
     except:
       abort(400)
 
-  def paginate_questions(request, selection):
-    '''
-    Return page, iterms count, every 10 questions per page.
-    '''
-    page = request.args.get('page', 1, type=int)
-    start =  (page - 1) * QUESTIONS_PER_PAGE
-    end = start + QUESTIONS_PER_PAGE
-    items = [s.format() for s in selection]
-    return page, len(items), items[start:end]
+
+
+
+  # def paginate_questions(request, selection):
+  #   '''
+  #   Return page, iterms count, every 10 questions per page.
+  #   '''
+  #   page = request.args.get('page', 1, type=int)
+  #   start =  (page - 1) * QUESTIONS_PER_PAGE
+  #   end = start + QUESTIONS_PER_PAGE
+  #   items = [s.format() for s in selection]
+  #   return page, len(items), items[start:end]
 
   @app.route('/questions', methods=['GET'])
   def get_questions():
@@ -70,7 +89,7 @@ def create_app(test_config=None):
     '''
     try:
       query = Question.query
-      page, questions_cnt, questions = paginate_questions(request, query.all())
+      page, questions_cnt, questions = paginate(request, query.all())
       if not questions:
         abort(404)
 
@@ -131,7 +150,7 @@ def create_app(test_config=None):
       questions = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
       questions.insert()
       selections = Question.query.order_by(Question.id).all()
-      current_question = paginate_questions(request, selections)
+      current_question = paginate(request, selections)
 
       return jsonify({
         'success': True,
@@ -144,7 +163,7 @@ def create_app(test_config=None):
       abort(400)
 
 
-  @app.route('/questions', methods=['POST'])
+  @app.route('/questions/search', methods=['POST'])
   def search_questions():
     '''
     @TODO: 
@@ -158,23 +177,50 @@ def create_app(test_config=None):
     '''
     try:
       query = Question.query
-      search_term = request.args.get('searchTerm')
+      data = request.get_json()
+      search_term = data.get('searchTerm')
+      # print(search_term)
       if search_term:
-        query = query.fiter(Question.question.ilike("%{}%".format(search_term)))
+        query = query.filter(Question.question.ilike('%{}%'.format(search_term)))
       
-      page, questions_cnt, questions = paginate_questions(request, query)
-
+      page, total_questions, questions = paginate(request, query.all())
+    
       if len(questions) == 0:
         abort(404)
       
+      categories = dict([(str(c.id), c.type.lower()) for c in Category.query.all()])
       return jsonify({
         'page': page,
-        'total_questions': questions_cnt,
-        'questions': questions
+        'questions': questions,
+        'total_questions': total_questions,
+        'current_category': categories
       })
+    except Exception as err:
+      print(err)
 
-    except:
-      abort(400)
+    # try:
+      
+    #   search_term = request.args.get('searchTerm')
+    #   if search_term:
+    #     # print(search_term)
+    #     query = Question.query
+    #     selections = query.fiter(Question.question.ilike('%{}%'.format(search_term))).all()
+      
+    #     page, questions_cnt, questions = paginate(request, selections)
+    #     # categories = dict([(str(category.id), category.lower()) for category in Category.query.all()])
+    #     if len(questions) == 0:
+    #       abort(404)
+      
+    #     return jsonify({
+    #       'page': page,
+    #       'total_questions': questions_cnt,
+    #       'questions': questions,
+    #       'searchTerm': search_term
+          
+    #     })
+
+    # except:
+    #   abort(400)
 
   @app.route('/categories/<int:category_id>/questions')
   def get_questions_by_cagetories(category_id):
@@ -221,20 +267,24 @@ def create_app(test_config=None):
 
       previous_questions = body['previous_questions']
       category_id = body['quiz_category']['id']
-
+      if not category_id:
+        abort(404)
       if category_id:
         # legal category, else all categories
-        if category_id in range(1,7):
-          query = query.filter(Question.category == category_id)
-      if previous_questions:
-        query = query.filter(Question.id.notin_(previous_questions))
+        # if category_id in range(1,7):
+        query = query.filter(Question.category == category_id)
+        if previous_questions:
+          query = query.filter(Question.id.notin_(previous_questions))
 
-      questions = query.order_by(func.random()).first()
+      # questions = query.order_by(func.random())
+      rand = [q.format() for q in query.all()]
+      out = random.choice(rand)
       return jsonify({
-        'questions': questions
+        'questions': out
       })
 
-    except:
+    except Exception as err:
+      print(err)
       abort(400)
 
 

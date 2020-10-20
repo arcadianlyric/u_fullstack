@@ -39,7 +39,7 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_get_categories(self):
         res = self.client().get('/categories')
-        data = res.get_json()
+        data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['categories'])
@@ -62,6 +62,38 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(questions, None)
 
+
+    def test_search_questions(self):
+        '''Test if search term in questions returned. '''
+        response = self.client().post(f'/questions/search', json={'searchTerm':'title'})
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertGreater(len(data['questions']), 0)
+        for question in data['questions']:
+            print(question)
+            self.assertIn('title', question['question'].lower())
+    # def test_search_questions(self):
+        
+    #     searchTerm = 'title'
+    #     res = self.client().get(f'/questions?searchTerm=title')
+    #     data = res.get_json()
+    #     # print(data)
+    #     self.assertEqual(res.status_code, 200)
+    #     self.assertGreater(len(data['questions']), 0)
+    #     for question in data['questions']:
+    #         # print(question)
+    #         self.assertIn(searchTerm, question['question'].lower())
+
+
+    def test_get_questions_by_cagetories(self):
+        
+        res = self.client().get('/categories/5/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['questions'])
+
+
     def test_post_questions(self):
         new_question = {
             'question': 'What is the 5th element ?',
@@ -71,7 +103,7 @@ class TriviaTestCase(unittest.TestCase):
         }
 
         res = self.client().post('/questions', json=new_question)
-        data = json.loads(res.data)
+        data = res.get_json()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -79,42 +111,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertGreater(data['total_questions'], 0)
 
 
-    # def test_search_questions(self):
-    #     '''Test if search term in questions returned. '''
-    #     searchTerm = 'movie'
-    #     res = self.client().get('/questions?searchTerm='+searchTerm)
-    #     data = res.get_json()
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertGreater(len(data['questions']), 0)
-    #     for question in data['questions']:
-    #         self.assertIn(searchTerm, question['question'].lower())
-
-    def test_get_questions_by_cagetories(self):
-        
-        res = self.client().get('/categories/5/questions')
+    def test_post_quizzes(self):
+        '''Test input category '''
+        category = {'id':1}
+        res = self.client().post('/quizzes', json={'quiz_category': {'id': 1}, 'previous_questions': [2]})
         data = res.get_json()
-
+        print(data)
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['questions'])
 
-    # def test_post_quizzes_categories(self):
-    #     '''Test input category '''
-    #     category = {'id':1, 'type':'dummy'}
-    #     res = self.client().post('/quizzes', json={'quiz_category': category})
-    #     data = json.loads(res.data)
-
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTrue(data['questions'])
-
-    # def test_post_quizzes_pre_questions(self):
-    #     '''Test input previous questions '''
-    #     previous_questions = [1,2]
-    #     res = self.client().post('/quizzes', json={ 'previous_questions': previous_questions })
-    #     data = res.get_json()
-
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertNotIn(data['questions']['id'], previous_questions)
 
 
 
