@@ -4,3 +4,5 @@ node
 node_modules/bootstrap/CHANGELOG.md
 package-lock.json
 package.json
+*.zip
+*.zip

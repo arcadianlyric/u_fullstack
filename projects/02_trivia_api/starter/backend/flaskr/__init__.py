@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
-
+from sqlalchemy import func
 from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
@@ -17,12 +17,11 @@ def paginate(request, selections):
   - the current page items
   '''
   page = request.args.get('page', 1, type=int)
-  # page_size = request.args.get('limit', QUESTIONS_PER_PAGE, type=int)
   page_size = QUESTIONS_PER_PAGE
   start = (page - 1) * page_size
   end = start + page_size
   items = [s.format() for s in selections]
-  return page, len(items), items[start:end]
+  return len(items), items[start:end]
   
 def create_app(test_config=None):
   # create and configure the app
@@ -52,7 +51,7 @@ def create_app(test_config=None):
     for all available categories.
     '''
     try:
-      categories = dict([(str(category.id), category.type) for category in Category.query.all()])
+      categories = dict([(str(category.id), category.type.lower()) for category in Category.query.all()])
       return jsonify({
         'categories': categories
       })
@@ -60,18 +59,6 @@ def create_app(test_config=None):
     except:
       abort(400)
 
-
-
-
-  # def paginate_questions(request, selection):
-  #   '''
-  #   Return page, iterms count, every 10 questions per page.
-  #   '''
-  #   page = request.args.get('page', 1, type=int)
-  #   start =  (page - 1) * QUESTIONS_PER_PAGE
-  #   end = start + QUESTIONS_PER_PAGE
-  #   items = [s.format() for s in selection]
-  #   return page, len(items), items[start:end]
 
   @app.route('/questions', methods=['GET'])
   def get_questions():
@@ -89,17 +76,17 @@ def create_app(test_config=None):
     '''
     try:
       query = Question.query
-      page, questions_cnt, questions = paginate(request, query.all())
+      total_questions, questions = paginate(request, query.all())
       if not questions:
         abort(404)
-
-      categories = dict([(category.id, category.type) for category in Category.query.all()])
-
+      # list format caused error, has to be dict
+      # no lower() caused frontend error 
+      categories = dict([(str(category.id), category.type.lower()) for category in Category.query.all()])
       return jsonify({
-        'categries': categories,
-        'page': page,
-        'total_questions': questions_cnt,
-        'questions': questions
+        'total_questions': total_questions,
+        'questions': questions,
+        'categories': categories
+
       })
 
     except:
@@ -141,11 +128,11 @@ def create_app(test_config=None):
     of the questions list in the "List" tab.  
     '''
     try:
-      data = request.get_json()
-      new_question = data.get('question', None)
-      new_answer = data.get('answer', None)
-      new_difficulty = data.get('difficulty', None)
-      new_category = data.get('category', None)
+      body = request.get_json()
+      new_question = body.get('question', None)
+      new_answer = body.get('answer', None)
+      new_difficulty = body.get('difficulty', None)
+      new_category = body.get('category', None)
 
       questions = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
       questions.insert()
@@ -176,51 +163,23 @@ def create_app(test_config=None):
     Try using the word "title" to start. 
     '''
     try:
-      query = Question.query
-      data = request.get_json()
-      search_term = data.get('searchTerm')
-      # print(search_term)
+      body = request.get_json()
+      search_term = body.get('searchTerm')
+
       if search_term:
-        query = query.filter(Question.question.ilike('%{}%'.format(search_term)))
-      
-      page, total_questions, questions = paginate(request, query.all())
-    
-      if len(questions) == 0:
-        abort(404)
-      
-      categories = dict([(str(c.id), c.type.lower()) for c in Category.query.all()])
-      return jsonify({
-        'page': page,
-        'questions': questions,
-        'total_questions': total_questions,
-        'current_category': categories
-      })
-    except Exception as err:
-      print(err)
-
-    # try:
-      
-    #   search_term = request.args.get('searchTerm')
-    #   if search_term:
-    #     # print(search_term)
-    #     query = Question.query
-    #     selections = query.fiter(Question.question.ilike('%{}%'.format(search_term))).all()
-      
-    #     page, questions_cnt, questions = paginate(request, selections)
-    #     # categories = dict([(str(category.id), category.lower()) for category in Category.query.all()])
-    #     if len(questions) == 0:
-    #       abort(404)
-      
-    #     return jsonify({
-    #       'page': page,
-    #       'total_questions': questions_cnt,
-    #       'questions': questions,
-    #       'searchTerm': search_term
+          selection = Question.query.filter(Question.question.ilike('%{}%'.format(search_term)))
+          total_questions, questions = paginate(request, selection.all())
+          if total_questions == 0:
+              abort(404)
           
-    #     })
+          return jsonify({
+              'success': True,
+              'questions': questions,
+              'total_questions': total_questions
+          })
 
-    # except:
-    #   abort(400)
+    except:
+        abort(400)
 
   @app.route('/categories/<int:category_id>/questions')
   def get_questions_by_cagetories(category_id):
@@ -260,28 +219,36 @@ def create_app(test_config=None):
     and shown whether they were correct or not. 
     '''
     try:
-      query = Question.query
+      
       body = request.get_json()
       if not body:
         abort(404)
 
-      previous_questions = body['previous_questions']
-      category_id = body['quiz_category']['id']
-      if not category_id:
-        abort(404)
-      if category_id:
+      previous_questions = body.get('previous_questions', [])
+      category = body.get('quiz_category', None)
+      category_id = category['id']
+      if category_id == 0:
+        selection = Question.query
+      else:
         # legal category, else all categories
         # if category_id in range(1,7):
-        query = query.filter(Question.category == category_id)
-        if previous_questions:
-          query = query.filter(Question.id.notin_(previous_questions))
+        selection = Question.query.filter(Question.category == category_id)
+      if previous_questions:
+        selection = selection.filter(Question.id.notin_(previous_questions))
+      # 'list' object has no attribute 'filter' if selectio = ..all()
+      all = [s.format() for s in selection.all()]
+      questions = random.choice(all)
+      # frontend, question not questions
+      if questions:
+        return jsonify({
+          'success': True,
+          'question': questions
+        })
+      else:
+        return jsonify({
+            'success': True
+        })
 
-      # questions = query.order_by(func.random())
-      rand = [q.format() for q in query.all()]
-      out = random.choice(rand)
-      return jsonify({
-        'questions': out
-      })
 
     except Exception as err:
       print(err)
