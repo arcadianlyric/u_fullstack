@@ -28,7 +28,8 @@ db_drop_and_create_all()
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks", methods=["GET"])
-def get_drinks():
+@requires_auth("get:drink")
+def get_drinks(jwt):
     try:
         results = {
             "success": True,
@@ -47,7 +48,7 @@ def get_drinks():
         or appropriate status code indicating reason for failure
 '''
 app.route("/drinks-detail", methods=["GET"])
-@requires_auth("get:drinks-detail")
+@requires_auth("get:drinks_details")
 def get_drinks_detail(jwt):
     try:
         results = {
@@ -68,7 +69,7 @@ def get_drinks_detail(jwt):
         or appropriate status code indicating reason for failure
 '''
 app.route("/drinks", methods=["POST"])
-@requires_auth("post:drinks")
+@requires_auth("post:drink")
 def post_drinks(jwt):
     body = request.get_json()
     if not body or not body["title"] or not body["recipe"]:
@@ -94,7 +95,7 @@ def post_drinks(jwt):
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks/<int:drink_id>", methods=["PATCH"])
-@requires_auth("patch:drinks")
+@requires_auth("patch:drink")
 def patch_drinks(drink_id, jwt):
     drink = Drink.query.get(drink_id)
     if not drink:
@@ -104,7 +105,7 @@ def patch_drinks(drink_id, jwt):
     if not body or not body["title"] or not body["recipe"]:
         abort(400)
     drink.title = body["title"]
-    drink.recipe = json.dumps(body["recipe"]
+    drink.recipe = json.dumps(body["recipe"])
     drink.update()
 
     results = {
@@ -126,7 +127,7 @@ def patch_drinks(drink_id, jwt):
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks/<int:drink_id>", methods=["DELETE"])
-@requires_auth("delete:drinks")
+@requires_auth("delete:drink")
 def delete_drinks(drink_id, jwt):
     drink = Drink.query.get(drink_id)
     if not drink:

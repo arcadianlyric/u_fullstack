@@ -5,9 +5,9 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'udacity-coffeeshop-cc.auth0.com'
+AUTH0_DOMAIN = 'udacity-coffeeshop-cc.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'dev'
+API_AUDIENCE = 'coffeeshop'
 
 ## AuthError Exception
 '''
@@ -59,7 +59,7 @@ def get_token_auth_header():
             }, 401)
 
         token = parts[1]
-    return token
+        return token
 
     except:
         raise Exception('Not Implemented')
