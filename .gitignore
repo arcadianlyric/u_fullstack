@@ -9,3 +9,4 @@ package.json
 pj2/Untitled.ipynb
 projects/03_coffee_shop_full_stack/starter_code/frontend/node_modules
 projects/03_coffee_shop_full_stack/starter_code/frontend/package
+*.ipynb
