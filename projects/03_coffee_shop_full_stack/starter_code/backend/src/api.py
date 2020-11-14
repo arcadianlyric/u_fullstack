@@ -16,7 +16,7 @@ CORS(app)
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-db_drop_and_create_all()
+# db_drop_and_create_all()
 
 ## ROUTES
 '''
@@ -28,8 +28,7 @@ db_drop_and_create_all()
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks", methods=["GET"])
-@requires_auth("get:drink")
-def get_drinks(jwt):
+def get_drinks():
     try:
         results = {
             "success": True,
@@ -39,6 +38,7 @@ def get_drinks(jwt):
     except:
         abort(400)
 
+
 '''
 @TODO implement endpoint
     GET /drinks-detail
@@ -47,8 +47,8 @@ def get_drinks(jwt):
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
-app.route("/drinks-detail", methods=["GET"])
-@requires_auth("get:drinks_details")
+@app.route("/drinks-detail", methods=["GET"])
+@requires_auth("get:drinks-detail")
 def get_drinks_detail(jwt):
     try:
         results = {
@@ -68,20 +68,21 @@ def get_drinks_detail(jwt):
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
-app.route("/drinks", methods=["POST"])
-@requires_auth("post:drink")
-def post_drinks(jwt):
+@app.route("/drinks", methods=["POST"])
+@requires_auth("post:drinks")
+def post_drink(jwt):
+    """Adds a drink. Requires authentication and permission"""
     body = request.get_json()
-    if not body or not body["title"] or not body["recipe"]:
+    if not body:
         abort(400)
-    new_drink = Drink(title=body["title"], recipe=json.dumps(body["recipe"]))
-    new_drink.insert()
 
-    results = {
-        "success": True,
-        "drinks": [new_drink.long()]
-    }
-    return jsonify(results)
+    drink = Drink(title=body["title"], recipe=json.dumps(body["recipe"]))
+    drink.insert()
+    return jsonify(
+        {"success": True, 
+        "drinks": [drink.long()]
+        })
+
 
 '''
 @TODO implement endpoint
@@ -95,17 +96,21 @@ def post_drinks(jwt):
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks/<int:drink_id>", methods=["PATCH"])
-@requires_auth("patch:drink")
-def patch_drinks(drink_id, jwt):
+@requires_auth("patch:drinks")
+def patch_drinks(jwt, drink_id): # jwt must be the 1st
     drink = Drink.query.get(drink_id)
     if not drink:
         abort(404)
-
+    
     body = request.get_json()
-    if not body or not body["title"] or not body["recipe"]:
+
+    if not body or ("title" not in body and "recipe" not in body):
         abort(400)
-    drink.title = body["title"]
-    drink.recipe = json.dumps(body["recipe"])
+
+    if "title" in body:
+        drink.title = body["title"]
+    if "recipe" in body:
+        drink.recipe = json.dumps(body["recipe"])
     drink.update()
 
     results = {
@@ -127,8 +132,8 @@ def patch_drinks(drink_id, jwt):
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks/<int:drink_id>", methods=["DELETE"])
-@requires_auth("delete:drink")
-def delete_drinks(drink_id, jwt):
+@requires_auth("delete:drinks")
+def delete_drinks(jwt, drink_id):
     drink = Drink.query.get(drink_id)
     if not drink:
         abort(404)
