@@ -1,1 +1,0 @@
-https://udacity-coffeeshop-cc.us.auth0.com/authorize?audience=coffeeshop&response_type=token&client_id=wbSb5YEw15OGQDGchb2KiaXe4nlk7O0f&redirect_uri=http://localhost:8080/login-results
