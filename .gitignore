@@ -7,7 +7,7 @@ _config.yml
 *.zip
 *.ipynb
 *.pyc
-
+.DS_Store
 projects/03_coffee_shop_full_stack/starter_code/frontend/node_modules
 projects/03_coffee_shop_full_stack/starter_code/frontend/package
 
