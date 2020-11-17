@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 node
 
 package-lock.json
@@ -10,8 +10,8 @@ package.json
 projects/03_coffee_shop_full_stack/starter_code/frontend/node_modules
 projects/03_coffee_shop_full_stack/starter_code/frontend/package
 
-pj1/
-pj2/
-pj3/
-LocalStore/
-FlaskRecap/
+pj1
+pj2
+pj3
+LocalStore
+FlaskRecap
