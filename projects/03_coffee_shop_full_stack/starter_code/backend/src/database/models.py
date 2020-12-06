@@ -63,7 +63,7 @@ class Drink(db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'recipe': json.loads(self.recipe)
+            'recipe': json.loads(self.recipe),
         }
 
     '''
