@@ -1,0 +1,882 @@
+[Container] 2020/11/18 19:05:41 Waiting for agent ping
+[Container] 2020/11/18 19:05:43 Waiting for DOWNLOAD_SOURCE
+[Container] 2020/11/18 19:05:44 Phase is DOWNLOAD_SOURCE
+[Container] 2020/11/18 19:05:44 CODEBUILD_SRC_DIR=/codebuild/output/src246693520/src
+[Container] 2020/11/18 19:05:44 YAML location is /codebuild/output/src246693520/src/buildspec.yml
+[Container] 2020/11/18 19:05:44 Processing environment variables
+[Container] 2020/11/18 19:05:44 Decrypting parameter store environment variables
+[Container] 2020/11/18 19:05:44 No runtime version selected in buildspec.
+[Container] 2020/11/18 19:05:44 Moving to directory /codebuild/output/src246693520/src
+[Container] 2020/11/18 19:05:44 Registering with agent
+[Container] 2020/11/18 19:05:44 Phases found in YAML: 4
+[Container] 2020/11/18 19:05:44  PRE_BUILD: 5 commands
+[Container] 2020/11/18 19:05:44  BUILD: 3 commands
+[Container] 2020/11/18 19:05:44  POST_BUILD: 12 commands
+[Container] 2020/11/18 19:05:44  INSTALL: 5 commands
+[Container] 2020/11/18 19:05:44 Phase complete: DOWNLOAD_SOURCE State: SUCCEEDED
+[Container] 2020/11/18 19:05:44 Phase context status code:  Message: 
+[Container] 2020/11/18 19:05:44 Entering phase INSTALL
+[Container] 2020/11/18 19:05:44 Running command curl -sS -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+
+[Container] 2020/11/18 19:05:46 Running command curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 41.0M  100 41.0M    0     0  75.3M      0 --:--:-- --:--:-- --:--:-- 75.3M
+
+[Container] 2020/11/18 19:05:47 Running command chmod +x ./kubectl ./aws-iam-authenticator
+
+[Container] 2020/11/18 19:05:47 Running command export PATH=$PWD/:$PATH
+
+[Container] 2020/11/18 19:05:47 Running command apt-get update && apt-get -y install jq python3-pip python3-dev && pip3 install --upgrade awscli
+Get:1 https://dl.yarnpkg.com/debian stable InRelease [17.1 kB]
+Ign:2 https://dl.bintray.com/sbt/debian  InRelease
+Get:3 https://apt.corretto.aws stable InRelease [10.7 kB]
+Get:4 https://dl.bintray.com/sbt/debian  Release [815 B]
+Get:5 https://download.mono-project.com/repo/ubuntu stable-bionic InRelease [5143 B]
+Get:6 https://dl.bintray.com/sbt/debian  Release.gpg [821 B]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:8 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic InRelease [20.8 kB]
+Get:9 https://dl.yarnpkg.com/debian stable/main all Packages [10.2 kB]
+Get:10 https://dl.yarnpkg.com/debian stable/main amd64 Packages [10.2 kB]
+Get:11 http://archive.canonical.com/ubuntu bionic InRelease [10.2 kB]
+Get:12 https://dl.yarnpkg.com/debian stable/main i386 Packages [10.2 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+Get:14 https://apt.corretto.aws stable/main i386 Packages [1570 B]
+Get:15 https://apt.corretto.aws stable/main amd64 Packages [4209 B]
+Get:16 https://download.mono-project.com/repo/ubuntu stable-bionic/main i386 Packages [48.9 kB]
+Get:17 https://download.mono-project.com/repo/ubuntu stable-bionic/main amd64 Packages [48.9 kB]
+Get:18 http://ppa.launchpad.net/malteworld/ppa/ubuntu bionic InRelease [15.3 kB]
+Get:19 http://archive.canonical.com/ubuntu bionic/partner i386 Packages [2311 B]
+Get:20 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [1365 kB]
+Get:21 http://archive.canonical.com/ubuntu bionic/partner amd64 Packages [2312 B]
+Get:22 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic/main amd64 Packages [3189 B]
+Get:23 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:24 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic/main i386 Packages [3185 B]
+Get:25 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1328 kB]
+Get:27 https://dl.bintray.com/sbt/debian  Packages [4897 B]
+Get:28 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [222 kB]
+Get:29 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [1076 kB]
+Get:30 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [5147 B]
+Get:31 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [11.1 kB]
+Get:32 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [15.8 kB]
+Get:33 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [1211 kB]
+Get:34 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [1781 kB]
+Get:35 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+Get:36 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [13.5 kB]
+Get:37 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
+Get:38 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+Get:39 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+Get:40 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [11.3 MB]
+Get:41 http://archive.ubuntu.com/ubuntu bionic/multiverse i386 Packages [177 kB]
+Get:42 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [2130 kB]
+Get:43 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [252 kB]
+Get:44 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [16.6 kB]
+Get:45 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [54.4 kB]
+Get:46 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [1948 kB]
+Get:47 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages [23.6 kB]
+Get:48 http://archive.ubuntu.com/ubuntu bionic-updates/main i386 Packages [1464 kB]
+Get:49 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [2208 kB]
+Get:50 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [11.3 kB]
+Get:51 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [11.4 kB]
+Get:52 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [11.2 kB]
+Get:53 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [11.4 kB]
+Fetched 40.2 MB in 5s (7340 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+jq is already the newest version (1.5+dfsg-2).
+The following additional packages will be installed:
+  dbus dh-python libapparmor1 libpython3-dev libpython3.6 libpython3.6-dev
+  libpython3.6-minimal libpython3.6-stdlib python-pip-whl python3-asn1crypto
+  python3-cffi-backend python3-crypto python3-cryptography python3-idna
+  python3-keyring python3-keyrings.alt python3-pkg-resources
+  python3-secretstorage python3-setuptools python3-six python3-wheel
+  python3-xdg python3.6 python3.6-dev python3.6-minimal
+Suggested packages:
+  default-dbus-session-bus | dbus-session-bus python-crypto-doc
+  python-cryptography-doc python3-cryptography-vectors gnome-keyring
+  libkf5wallet-bin gir1.2-gnomekeyring-1.0 python-secretstorage-doc
+  python-setuptools-doc python3.6-venv python3.6-doc
+The following NEW packages will be installed:
+  dbus dh-python libapparmor1 libpython3-dev libpython3.6-dev python-pip-whl
+  python3-asn1crypto python3-cffi-backend python3-crypto python3-cryptography
+  python3-dev python3-idna python3-keyring python3-keyrings.alt python3-pip
+  python3-pkg-resources python3-secretstorage python3-setuptools python3-six
+  python3-wheel python3-xdg python3.6-dev
+The following packages will be upgraded:
+  libpython3.6 libpython3.6-minimal libpython3.6-stdlib python3.6
+  python3.6-minimal
+5 upgraded, 22 newly installed, 0 to remove and 234 not upgraded.
+Need to get 54.0 MB of archives.
+After this operation, 86.8 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 amd64 3.6.9-1~18.04ubuntu1.3 [1414 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6 amd64 3.6.9-1~18.04ubuntu1.3 [203 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-stdlib amd64 3.6.9-1~18.04ubuntu1.3 [1713 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [1609 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [533 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libapparmor1 amd64 2.12-4ubuntu5.1 [31.3 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 dbus amd64 1.12.2-1ubuntu1.2 [150 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 dh-python all 3.20180325ubuntu2 [89.2 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-dev amd64 3.6.9-1~18.04ubuntu1.3 [44.9 MB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3-dev amd64 3.6.7-1~18.04 [7328 B]
+Get:11 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 python-pip-whl all 9.0.1-2.3~ubuntu1.18.04.4 [1653 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-asn1crypto all 0.24.0-1 [72.8 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-cffi-backend amd64 1.11.5-1 [64.6 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-crypto amd64 2.6.1-8ubuntu2 [244 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-idna all 2.6-1 [32.5 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-six all 1.11.0-2 [11.4 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-cryptography amd64 2.1.4-1ubuntu1.4 [220 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6-dev amd64 3.6.9-1~18.04ubuntu1.3 [508 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-dev amd64 3.6.7-1~18.04 [1288 B]
+Get:20 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-secretstorage all 2.3.1-2 [12.1 kB]
+Get:21 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-keyring all 10.6.0-1 [26.7 kB]
+Get:22 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-keyrings.alt all 3.0-1 [16.6 kB]
+Get:23 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 python3-pip all 9.0.1-2.3~ubuntu1.18.04.4 [114 kB]
+Get:24 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-pkg-resources all 39.0.1-2 [98.8 kB]
+Get:25 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-setuptools all 39.0.1-2 [248 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/universe amd64 python3-wheel all 0.30.0-0.2 [36.5 kB]
+Get:27 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-xdg all 0.25-4ubuntu1 [31.4 kB]
+Fetched 54.0 MB in 6s (8646 kB/s)
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 52222 files and directories currently installed.)
+Preparing to unpack .../00-libpython3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../01-python3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../02-libpython3.6-stdlib_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../03-python3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6-minimal (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../04-libpython3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Selecting previously unselected package libapparmor1:amd64.
+Preparing to unpack .../05-libapparmor1_2.12-4ubuntu5.1_amd64.deb ...
+Unpacking libapparmor1:amd64 (2.12-4ubuntu5.1) ...
+Selecting previously unselected package dbus.
+Preparing to unpack .../06-dbus_1.12.2-1ubuntu1.2_amd64.deb ...
+Unpacking dbus (1.12.2-1ubuntu1.2) ...
+Selecting previously unselected package dh-python.
+Preparing to unpack .../07-dh-python_3.20180325ubuntu2_all.deb ...
+Unpacking dh-python (3.20180325ubuntu2) ...
+Selecting previously unselected package libpython3.6-dev:amd64.
+Preparing to unpack .../08-libpython3.6-dev_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-dev:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Selecting previously unselected package libpython3-dev:amd64.
+Preparing to unpack .../09-libpython3-dev_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3-dev:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package python-pip-whl.
+Preparing to unpack .../10-python-pip-whl_9.0.1-2.3~ubuntu1.18.04.4_all.deb ...
+Unpacking python-pip-whl (9.0.1-2.3~ubuntu1.18.04.4) ...
+Selecting previously unselected package python3-asn1crypto.
+Preparing to unpack .../11-python3-asn1crypto_0.24.0-1_all.deb ...
+Unpacking python3-asn1crypto (0.24.0-1) ...
+Selecting previously unselected package python3-cffi-backend.
+Preparing to unpack .../12-python3-cffi-backend_1.11.5-1_amd64.deb ...
+Unpacking python3-cffi-backend (1.11.5-1) ...
+Selecting previously unselected package python3-crypto.
+Preparing to unpack .../13-python3-crypto_2.6.1-8ubuntu2_amd64.deb ...
+Unpacking python3-crypto (2.6.1-8ubuntu2) ...
+Selecting previously unselected package python3-idna.
+Preparing to unpack .../14-python3-idna_2.6-1_all.deb ...
+Unpacking python3-idna (2.6-1) ...
+Selecting previously unselected package python3-six.
+Preparing to unpack .../15-python3-six_1.11.0-2_all.deb ...
+Unpacking python3-six (1.11.0-2) ...
+Selecting previously unselected package python3-cryptography.
+Preparing to unpack .../16-python3-cryptography_2.1.4-1ubuntu1.4_amd64.deb ...
+Unpacking python3-cryptography (2.1.4-1ubuntu1.4) ...
+Selecting previously unselected package python3.6-dev.
+Preparing to unpack .../17-python3.6-dev_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6-dev (3.6.9-1~18.04ubuntu1.3) ...
+Selecting previously unselected package python3-dev.
+Preparing to unpack .../18-python3-dev_3.6.7-1~18.04_amd64.deb ...
+Unpacking python3-dev (3.6.7-1~18.04) ...
+Selecting previously unselected package python3-secretstorage.
+Preparing to unpack .../19-python3-secretstorage_2.3.1-2_all.deb ...
+Unpacking python3-secretstorage (2.3.1-2) ...
+Selecting previously unselected package python3-keyring.
+Preparing to unpack .../20-python3-keyring_10.6.0-1_all.deb ...
+Unpacking python3-keyring (10.6.0-1) ...
+Selecting previously unselected package python3-keyrings.alt.
+Preparing to unpack .../21-python3-keyrings.alt_3.0-1_all.deb ...
+Unpacking python3-keyrings.alt (3.0-1) ...
+Selecting previously unselected package python3-pip.
+Preparing to unpack .../22-python3-pip_9.0.1-2.3~ubuntu1.18.04.4_all.deb ...
+Unpacking python3-pip (9.0.1-2.3~ubuntu1.18.04.4) ...
+Selecting previously unselected package python3-pkg-resources.
+Preparing to unpack .../23-python3-pkg-resources_39.0.1-2_all.deb ...
+Unpacking python3-pkg-resources (39.0.1-2) ...
+Selecting previously unselected package python3-setuptools.
+Preparing to unpack .../24-python3-setuptools_39.0.1-2_all.deb ...
+Unpacking python3-setuptools (39.0.1-2) ...
+Selecting previously unselected package python3-wheel.
+Preparing to unpack .../25-python3-wheel_0.30.0-0.2_all.deb ...
+Unpacking python3-wheel (0.30.0-0.2) ...
+Selecting previously unselected package python3-xdg.
+Preparing to unpack .../26-python3-xdg_0.25-4ubuntu1_all.deb ...
+Unpacking python3-xdg (0.25-4ubuntu1) ...
+Setting up python-pip-whl (9.0.1-2.3~ubuntu1.18.04.4) ...
+Setting up python3-cffi-backend (1.11.5-1) ...
+Setting up python3-crypto (2.6.1-8ubuntu2) ...
+Setting up python3-idna (2.6-1) ...
+Setting up python3-xdg (0.25-4ubuntu1) ...
+Setting up python3-six (1.11.0-2) ...
+Setting up python3-wheel (0.30.0-0.2) ...
+Setting up python3-pkg-resources (39.0.1-2) ...
+Setting up libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-asn1crypto (0.24.0-1) ...
+Setting up libapparmor1:amd64 (2.12-4ubuntu5.1) ...
+Setting up python3-pip (9.0.1-2.3~ubuntu1.18.04.4) ...
+Setting up dbus (1.12.2-1ubuntu1.2) ...
+Setting up python3-setuptools (39.0.1-2) ...
+Setting up dh-python (3.20180325ubuntu2) ...
+Setting up python3-cryptography (2.1.4-1ubuntu1.4) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-keyrings.alt (3.0-1) ...
+Setting up python3.6-minimal (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-secretstorage (2.3.1-2) ...
+Setting up libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-keyring (10.6.0-1) ...
+Setting up libpython3.6-dev:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6-dev (3.6.9-1~18.04ubuntu1.3) ...
+Setting up libpython3-dev:amd64 (3.6.7-1~18.04) ...
+Setting up python3-dev (3.6.7-1~18.04) ...
+Processing triggers for mime-support (3.60ubuntu1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1.2) ...
+Collecting awscli
+  Downloading https://files.pythonhosted.org/packages/87/0c/1090b555de25df8a7214ebee460fe8d4542aa54b790ea9a89621af7c2687/awscli-1.18.180-py2.py3-none-any.whl (3.4MB)
+Requirement already satisfied, skipping upgrade: s3transfer<0.4.0,>=0.3.0 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.3.3)
+Requirement already satisfied, skipping upgrade: PyYAML<5.4,>=3.10; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (5.3.1)
+Requirement already satisfied, skipping upgrade: docutils<0.16,>=0.10 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.15.2)
+Requirement already satisfied, skipping upgrade: colorama<0.4.4,>=0.2.5; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.4.3)
+Requirement already satisfied, skipping upgrade: rsa<=4.5.0,>=3.1.2; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (4.5)
+Collecting botocore==1.19.20
+  Downloading https://files.pythonhosted.org/packages/7f/c7/118b4be030bd181b451442e00116aedb445664d7e363b826c9c9bf842456/botocore-1.19.20-py2.py3-none-any.whl (6.8MB)
+Requirement already satisfied, skipping upgrade: pyasn1>=0.1.3 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from rsa<=4.5.0,>=3.1.2; python_version != "3.4"->awscli) (0.4.8)
+Requirement already satisfied, skipping upgrade: python-dateutil<3.0.0,>=2.1 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.20->awscli) (2.8.0)
+Requirement already satisfied, skipping upgrade: jmespath<1.0.0,>=0.7.1 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.20->awscli) (0.9.5)
+Requirement already satisfied, skipping upgrade: urllib3<1.27,>=1.25.4; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.20->awscli) (1.25.10)
+Requirement already satisfied, skipping upgrade: six>=1.5 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from python-dateutil<3.0.0,>=2.1->botocore==1.19.20->awscli) (1.15.0)
+ERROR: boto3 1.14.50 has requirement botocore<1.18.0,>=1.17.50, but you'll have botocore 1.19.20 which is incompatible.
+Installing collected packages: botocore, awscli
+  Found existing installation: botocore 1.17.50
+    Uninstalling botocore-1.17.50:
+      Successfully uninstalled botocore-1.17.50
+  Found existing installation: awscli 1.18.127
+    Uninstalling awscli-1.18.127:
+      Successfully uninstalled awscli-1.18.127
+Successfully installed awscli-1.18.180 botocore-1.19.20
+WARNING: You are using pip version 19.3.1; however, version 20.2.4 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
+[Container] 2020/11/18 19:06:35 Phase complete: INSTALL State: SUCCEEDED
+[Container] 2020/11/18 19:06:35 Phase context status code:  Message: 
+[Container] 2020/11/18 19:06:35 Entering phase PRE_BUILD
+[Container] 2020/11/18 19:06:35 Running command TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+
+[Container] 2020/11/18 19:06:35 Running command sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' simple-jwt-api.yml
+
+[Container] 2020/11/18 19:06:35 Running command sed -i 's@JWT_SECRET_VALUE@'"$JWT_SECRET"'@' simple-jwt-api.yml
+
+[Container] 2020/11/18 19:06:35 Running command $(aws ecr get-login --no-include-email)
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+[Container] 2020/11/18 19:06:36 Running command export KUBECONFIG=$HOME/.kube/config
+
+[Container] 2020/11/18 19:06:36 Phase complete: PRE_BUILD State: SUCCEEDED
+[Container] 2020/11/18 19:06:36 Phase context status code:  Message: 
+[Container] 2020/11/18 19:06:36 Entering phase BUILD
+[Container] 2020/11/18 19:06:36 Running command echo $REPOSITORY_URI
+262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-cenyktvvn1z2
+
+[Container] 2020/11/18 19:06:36 Running command echo $TAG
+Deploy-Flask-App-to-Kubernetes-Using-EKS.master..2020-11-18.19.06.35.84244ce8
+
+[Container] 2020/11/18 19:06:36 Running command docker build --tag $REPOSITORY_URI:$TAG .
+Sending build context to Docker daemon  78.33MB
+
+Step 1/6 : FROM python:stretch
+toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+
+[Container] 2020/11/18 19:06:38 Command did not exit successfully docker build --tag $REPOSITORY_URI:$TAG . exit status 1
+[Container] 2020/11/18 19:06:38 Phase complete: BUILD State: FAILED
+[Container] 2020/11/18 19:06:38 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: docker build --tag $REPOSITORY_URI:$TAG .. Reason: exit status 1
+[Container] 2020/11/18 19:06:38 Entering phase POST_BUILD
+[Container] 2020/11/18 19:06:38 Running command docker push $REPOSITORY_URI:$TAG
+The push refers to repository [262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-cenyktvvn1z2]
+An image does not exist locally with the tag: 262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-cenyktvvn1z2
+
+[Container] 2020/11/18 19:06:38 Command did not exit successfully docker push $REPOSITORY_URI:$TAG exit status 1
+[Container] 2020/11/18 19:06:38 Phase complete: POST_BUILD State: FAILED
+[Container] 2020/11/18 19:06:38 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: docker push $REPOSITORY_URI:$TAG. Reason: exit status 1
+[Container] 2020/11/18 19:06:38 Expanding base directory path: .
+[Container] 2020/11/18 19:06:38 Assembling file list
+[Container] 2020/11/18 19:06:38 Expanding .
+[Container] 2020/11/18 19:06:38 Expanding file paths for base directory .
+[Container] 2020/11/18 19:06:38 Assembling file list
+[Container] 2020/11/18 19:06:38 Expanding build.json
+[Container] 2020/11/18 19:06:38 Skipping invalid file path build.json
+
+
+
+
+[Container] 2020/11/19 01:26:14 Waiting for agent ping
+[Container] 2020/11/19 01:26:16 Waiting for DOWNLOAD_SOURCE
+[Container] 2020/11/19 01:26:17 Phase is DOWNLOAD_SOURCE
+[Container] 2020/11/19 01:26:17 CODEBUILD_SRC_DIR=/codebuild/output/src953161420/src
+[Container] 2020/11/19 01:26:17 YAML location is /codebuild/output/src953161420/src/buildspec.yml
+[Container] 2020/11/19 01:26:17 Processing environment variables
+[Container] 2020/11/19 01:26:17 Decrypting parameter store environment variables
+[Container] 2020/11/19 01:26:17 No runtime version selected in buildspec.
+[Container] 2020/11/19 01:26:17 Moving to directory /codebuild/output/src953161420/src
+[Container] 2020/11/19 01:26:17 Registering with agent
+[Container] 2020/11/19 01:26:17 Phases found in YAML: 4
+[Container] 2020/11/19 01:26:17  POST_BUILD: 12 commands
+[Container] 2020/11/19 01:26:17  INSTALL: 5 commands
+[Container] 2020/11/19 01:26:17  PRE_BUILD: 5 commands
+[Container] 2020/11/19 01:26:17  BUILD: 3 commands
+[Container] 2020/11/19 01:26:17 Phase complete: DOWNLOAD_SOURCE State: SUCCEEDED
+[Container] 2020/11/19 01:26:17 Phase context status code:  Message: 
+[Container] 2020/11/19 01:26:17 Entering phase INSTALL
+[Container] 2020/11/19 01:26:17 Running command curl -sS -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+
+[Container] 2020/11/19 01:26:20 Running command curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+ 89 41.0M   89 36.8M    0     0  97.2M      0 --:--:-- --:--:-- --:--:-- 96.9M
+100 41.0M  100 41.0M    0     0   101M      0 --:--:-- --:--:-- --:--:--  101M
+
+[Container] 2020/11/19 01:26:20 Running command chmod +x ./kubectl ./aws-iam-authenticator
+
+[Container] 2020/11/19 01:26:20 Running command export PATH=$PWD/:$PATH
+
+[Container] 2020/11/19 01:26:20 Running command apt-get update && apt-get -y install jq python3-pip python3-dev && pip3 install --upgrade awscli
+Ign:1 https://dl.bintray.com/sbt/debian  InRelease
+Get:2 https://dl.bintray.com/sbt/debian  Release [815 B]
+Get:3 https://dl.bintray.com/sbt/debian  Release.gpg [821 B]
+Get:4 https://dl.yarnpkg.com/debian stable InRelease [17.1 kB]
+Get:5 https://download.mono-project.com/repo/ubuntu stable-bionic InRelease [5143 B]
+Get:6 https://apt.corretto.aws stable InRelease [10.7 kB]
+Get:7 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Get:8 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic InRelease [20.8 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+Get:10 http://archive.canonical.com/ubuntu bionic InRelease [10.2 kB]
+Get:11 https://dl.bintray.com/sbt/debian  Packages [4897 B]
+Get:12 https://dl.yarnpkg.com/debian stable/main all Packages [10.2 kB]
+Get:13 https://dl.yarnpkg.com/debian stable/main i386 Packages [10.2 kB]
+Get:14 https://dl.yarnpkg.com/debian stable/main amd64 Packages [10.2 kB]
+Get:15 https://download.mono-project.com/repo/ubuntu stable-bionic/main amd64 Packages [48.9 kB]
+Get:16 https://download.mono-project.com/repo/ubuntu stable-bionic/main i386 Packages [48.9 kB]
+Get:17 https://apt.corretto.aws stable/main i386 Packages [1570 B]
+Get:18 https://apt.corretto.aws stable/main amd64 Packages [4209 B]
+Get:19 http://ppa.launchpad.net/malteworld/ppa/ubuntu bionic InRelease [15.3 kB]
+Get:20 http://archive.canonical.com/ubuntu bionic/partner i386 Packages [2311 B]
+Get:21 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [1781 kB]
+Get:22 http://archive.canonical.com/ubuntu bionic/partner amd64 Packages [2312 B]
+Get:23 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:24 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic/main i386 Packages [3185 B]
+Get:25 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:26 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [15.8 kB]
+Get:27 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [222 kB]
+Get:28 http://security.ubuntu.com/ubuntu bionic-security/multiverse i386 Packages [5147 B]
+Get:29 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [1365 kB]
+Get:30 http://security.ubuntu.com/ubuntu bionic-security/universe i386 Packages [1211 kB]
+Get:31 http://ppa.launchpad.net/git-core/ppa/ubuntu bionic/main amd64 Packages [3189 B]
+Get:32 http://archive.ubuntu.com/ubuntu bionic/main i386 Packages [1328 kB]
+Get:33 http://security.ubuntu.com/ubuntu bionic-security/restricted i386 Packages [11.1 kB]
+Get:34 http://security.ubuntu.com/ubuntu bionic-security/main i386 Packages [1076 kB]
+Get:35 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+Get:36 http://archive.ubuntu.com/ubuntu bionic/multiverse i386 Packages [177 kB]
+Get:37 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+Get:38 http://archive.ubuntu.com/ubuntu bionic/universe i386 Packages [11.3 MB]
+Get:39 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+Get:40 http://archive.ubuntu.com/ubuntu bionic/restricted i386 Packages [13.5 kB]
+Get:41 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
+Get:42 http://archive.ubuntu.com/ubuntu bionic-updates/universe i386 Packages [1948 kB]
+Get:43 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [252 kB]
+Get:44 http://archive.ubuntu.com/ubuntu bionic-updates/restricted i386 Packages [23.5 kB]
+Get:45 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [2208 kB]
+Get:46 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [54.3 kB]
+Get:47 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [2130 kB]
+Get:48 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse i386 Packages [16.5 kB]
+Get:49 http://archive.ubuntu.com/ubuntu bionic-updates/main i386 Packages [1464 kB]
+Get:50 http://archive.ubuntu.com/ubuntu bionic-backports/main i386 Packages [11.2 kB]
+Get:51 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [11.3 kB]
+Get:52 http://archive.ubuntu.com/ubuntu bionic-backports/universe i386 Packages [11.4 kB]
+Get:53 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [11.4 kB]
+Fetched 40.2 MB in 5s (7570 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+jq is already the newest version (1.5+dfsg-2).
+The following additional packages will be installed:
+  dbus dh-python libapparmor1 libpython3-dev libpython3.6 libpython3.6-dev
+  libpython3.6-minimal libpython3.6-stdlib python-pip-whl python3-asn1crypto
+  python3-cffi-backend python3-crypto python3-cryptography python3-idna
+  python3-keyring python3-keyrings.alt python3-pkg-resources
+  python3-secretstorage python3-setuptools python3-six python3-wheel
+  python3-xdg python3.6 python3.6-dev python3.6-minimal
+Suggested packages:
+  default-dbus-session-bus | dbus-session-bus python-crypto-doc
+  python-cryptography-doc python3-cryptography-vectors gnome-keyring
+  libkf5wallet-bin gir1.2-gnomekeyring-1.0 python-secretstorage-doc
+  python-setuptools-doc python3.6-venv python3.6-doc
+The following NEW packages will be installed:
+  dbus dh-python libapparmor1 libpython3-dev libpython3.6-dev python-pip-whl
+  python3-asn1crypto python3-cffi-backend python3-crypto python3-cryptography
+  python3-dev python3-idna python3-keyring python3-keyrings.alt python3-pip
+  python3-pkg-resources python3-secretstorage python3-setuptools python3-six
+  python3-wheel python3-xdg python3.6-dev
+The following packages will be upgraded:
+  libpython3.6 libpython3.6-minimal libpython3.6-stdlib python3.6
+  python3.6-minimal
+5 upgraded, 22 newly installed, 0 to remove and 234 not upgraded.
+Need to get 54.0 MB of archives.
+After this operation, 86.8 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 amd64 3.6.9-1~18.04ubuntu1.3 [1414 kB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6 amd64 3.6.9-1~18.04ubuntu1.3 [203 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-stdlib amd64 3.6.9-1~18.04ubuntu1.3 [1713 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [1609 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-minimal amd64 3.6.9-1~18.04ubuntu1.3 [533 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libapparmor1 amd64 2.12-4ubuntu5.1 [31.3 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 dbus amd64 1.12.2-1ubuntu1.2 [150 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 dh-python all 3.20180325ubuntu2 [89.2 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-dev amd64 3.6.9-1~18.04ubuntu1.3 [44.9 MB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3-dev amd64 3.6.7-1~18.04 [7328 B]
+Get:11 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 python-pip-whl all 9.0.1-2.3~ubuntu1.18.04.4 [1653 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-asn1crypto all 0.24.0-1 [72.8 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-cffi-backend amd64 1.11.5-1 [64.6 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-crypto amd64 2.6.1-8ubuntu2 [244 kB]
+Get:15 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-idna all 2.6-1 [32.5 kB]
+Get:16 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-six all 1.11.0-2 [11.4 kB]
+Get:17 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-cryptography amd64 2.1.4-1ubuntu1.4 [220 kB]
+Get:18 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3.6-dev amd64 3.6.9-1~18.04ubuntu1.3 [508 kB]
+Get:19 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 python3-dev amd64 3.6.7-1~18.04 [1288 B]
+Get:20 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-secretstorage all 2.3.1-2 [12.1 kB]
+Get:21 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-keyring all 10.6.0-1 [26.7 kB]
+Get:22 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-keyrings.alt all 3.0-1 [16.6 kB]
+Get:23 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 python3-pip all 9.0.1-2.3~ubuntu1.18.04.4 [114 kB]
+Get:24 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-pkg-resources all 39.0.1-2 [98.8 kB]
+Get:25 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-setuptools all 39.0.1-2 [248 kB]
+Get:26 http://archive.ubuntu.com/ubuntu bionic/universe amd64 python3-wheel all 0.30.0-0.2 [36.5 kB]
+Get:27 http://archive.ubuntu.com/ubuntu bionic/main amd64 python3-xdg all 0.25-4ubuntu1 [31.4 kB]
+Fetched 54.0 MB in 8s (6885 kB/s)
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 52222 files and directories currently installed.)
+Preparing to unpack .../00-libpython3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../01-python3.6_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../02-libpython3.6-stdlib_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../03-python3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6-minimal (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Preparing to unpack .../04-libpython3.6-minimal_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) over (3.6.9-1~18.04ubuntu1.1) ...
+Selecting previously unselected package libapparmor1:amd64.
+Preparing to unpack .../05-libapparmor1_2.12-4ubuntu5.1_amd64.deb ...
+Unpacking libapparmor1:amd64 (2.12-4ubuntu5.1) ...
+Selecting previously unselected package dbus.
+Preparing to unpack .../06-dbus_1.12.2-1ubuntu1.2_amd64.deb ...
+Unpacking dbus (1.12.2-1ubuntu1.2) ...
+Selecting previously unselected package dh-python.
+Preparing to unpack .../07-dh-python_3.20180325ubuntu2_all.deb ...
+Unpacking dh-python (3.20180325ubuntu2) ...
+Selecting previously unselected package libpython3.6-dev:amd64.
+Preparing to unpack .../08-libpython3.6-dev_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking libpython3.6-dev:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Selecting previously unselected package libpython3-dev:amd64.
+Preparing to unpack .../09-libpython3-dev_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3-dev:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package python-pip-whl.
+Preparing to unpack .../10-python-pip-whl_9.0.1-2.3~ubuntu1.18.04.4_all.deb ...
+Unpacking python-pip-whl (9.0.1-2.3~ubuntu1.18.04.4) ...
+Selecting previously unselected package python3-asn1crypto.
+Preparing to unpack .../11-python3-asn1crypto_0.24.0-1_all.deb ...
+Unpacking python3-asn1crypto (0.24.0-1) ...
+Selecting previously unselected package python3-cffi-backend.
+Preparing to unpack .../12-python3-cffi-backend_1.11.5-1_amd64.deb ...
+Unpacking python3-cffi-backend (1.11.5-1) ...
+Selecting previously unselected package python3-crypto.
+Preparing to unpack .../13-python3-crypto_2.6.1-8ubuntu2_amd64.deb ...
+Unpacking python3-crypto (2.6.1-8ubuntu2) ...
+Selecting previously unselected package python3-idna.
+Preparing to unpack .../14-python3-idna_2.6-1_all.deb ...
+Unpacking python3-idna (2.6-1) ...
+Selecting previously unselected package python3-six.
+Preparing to unpack .../15-python3-six_1.11.0-2_all.deb ...
+Unpacking python3-six (1.11.0-2) ...
+Selecting previously unselected package python3-cryptography.
+Preparing to unpack .../16-python3-cryptography_2.1.4-1ubuntu1.4_amd64.deb ...
+Unpacking python3-cryptography (2.1.4-1ubuntu1.4) ...
+Selecting previously unselected package python3.6-dev.
+Preparing to unpack .../17-python3.6-dev_3.6.9-1~18.04ubuntu1.3_amd64.deb ...
+Unpacking python3.6-dev (3.6.9-1~18.04ubuntu1.3) ...
+Selecting previously unselected package python3-dev.
+Preparing to unpack .../18-python3-dev_3.6.7-1~18.04_amd64.deb ...
+Unpacking python3-dev (3.6.7-1~18.04) ...
+Selecting previously unselected package python3-secretstorage.
+Preparing to unpack .../19-python3-secretstorage_2.3.1-2_all.deb ...
+Unpacking python3-secretstorage (2.3.1-2) ...
+Selecting previously unselected package python3-keyring.
+Preparing to unpack .../20-python3-keyring_10.6.0-1_all.deb ...
+Unpacking python3-keyring (10.6.0-1) ...
+Selecting previously unselected package python3-keyrings.alt.
+Preparing to unpack .../21-python3-keyrings.alt_3.0-1_all.deb ...
+Unpacking python3-keyrings.alt (3.0-1) ...
+Selecting previously unselected package python3-pip.
+Preparing to unpack .../22-python3-pip_9.0.1-2.3~ubuntu1.18.04.4_all.deb ...
+Unpacking python3-pip (9.0.1-2.3~ubuntu1.18.04.4) ...
+Selecting previously unselected package python3-pkg-resources.
+Preparing to unpack .../23-python3-pkg-resources_39.0.1-2_all.deb ...
+Unpacking python3-pkg-resources (39.0.1-2) ...
+Selecting previously unselected package python3-setuptools.
+Preparing to unpack .../24-python3-setuptools_39.0.1-2_all.deb ...
+Unpacking python3-setuptools (39.0.1-2) ...
+Selecting previously unselected package python3-wheel.
+Preparing to unpack .../25-python3-wheel_0.30.0-0.2_all.deb ...
+Unpacking python3-wheel (0.30.0-0.2) ...
+Selecting previously unselected package python3-xdg.
+Preparing to unpack .../26-python3-xdg_0.25-4ubuntu1_all.deb ...
+Unpacking python3-xdg (0.25-4ubuntu1) ...
+Setting up python-pip-whl (9.0.1-2.3~ubuntu1.18.04.4) ...
+Setting up python3-cffi-backend (1.11.5-1) ...
+Setting up python3-crypto (2.6.1-8ubuntu2) ...
+Setting up python3-idna (2.6-1) ...
+Setting up python3-xdg (0.25-4ubuntu1) ...
+Setting up python3-six (1.11.0-2) ...
+Setting up python3-wheel (0.30.0-0.2) ...
+Setting up python3-pkg-resources (39.0.1-2) ...
+Setting up libpython3.6-minimal:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-asn1crypto (0.24.0-1) ...
+Setting up libapparmor1:amd64 (2.12-4ubuntu5.1) ...
+Setting up python3-pip (9.0.1-2.3~ubuntu1.18.04.4) ...
+Setting up dbus (1.12.2-1ubuntu1.2) ...
+Setting up python3-setuptools (39.0.1-2) ...
+Setting up dh-python (3.20180325ubuntu2) ...
+Setting up python3-cryptography (2.1.4-1ubuntu1.4) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-keyrings.alt (3.0-1) ...
+Setting up python3.6-minimal (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-secretstorage (2.3.1-2) ...
+Setting up libpython3.6:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3-keyring (10.6.0-1) ...
+Setting up libpython3.6-dev:amd64 (3.6.9-1~18.04ubuntu1.3) ...
+Setting up python3.6-dev (3.6.9-1~18.04ubuntu1.3) ...
+Setting up libpython3-dev:amd64 (3.6.7-1~18.04) ...
+Setting up python3-dev (3.6.7-1~18.04) ...
+Processing triggers for mime-support (3.60ubuntu1) ...
+Processing triggers for libc-bin (2.27-3ubuntu1.2) ...
+Collecting awscli
+  Downloading https://files.pythonhosted.org/packages/1d/6e/01781808e22ec28380d72bfd99111b75a19710d873118487390f15fb8095/awscli-1.18.181-py2.py3-none-any.whl (3.4MB)
+Requirement already satisfied, skipping upgrade: PyYAML<5.4,>=3.10; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (5.3.1)
+Requirement already satisfied, skipping upgrade: rsa<=4.5.0,>=3.1.2; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (4.5)
+Requirement already satisfied, skipping upgrade: colorama<0.4.4,>=0.2.5; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.4.3)
+Collecting botocore==1.19.21
+  Downloading https://files.pythonhosted.org/packages/c0/e7/bbf72c24d960735cf32503651941aee27daabb9c001dc06c0b8acb4db576/botocore-1.19.21-py2.py3-none-any.whl (6.8MB)
+Requirement already satisfied, skipping upgrade: s3transfer<0.4.0,>=0.3.0 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.3.3)
+Requirement already satisfied, skipping upgrade: docutils<0.16,>=0.10 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from awscli) (0.15.2)
+Requirement already satisfied, skipping upgrade: pyasn1>=0.1.3 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from rsa<=4.5.0,>=3.1.2; python_version != "3.4"->awscli) (0.4.8)
+Requirement already satisfied, skipping upgrade: jmespath<1.0.0,>=0.7.1 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.21->awscli) (0.9.5)
+Requirement already satisfied, skipping upgrade: urllib3<1.27,>=1.25.4; python_version != "3.4" in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.21->awscli) (1.25.10)
+Requirement already satisfied, skipping upgrade: python-dateutil<3.0.0,>=2.1 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from botocore==1.19.21->awscli) (2.8.0)
+Requirement already satisfied, skipping upgrade: six>=1.5 in /root/.pyenv/versions/3.8.3/lib/python3.8/site-packages (from python-dateutil<3.0.0,>=2.1->botocore==1.19.21->awscli) (1.15.0)
+ERROR: boto3 1.14.50 has requirement botocore<1.18.0,>=1.17.50, but you'll have botocore 1.19.21 which is incompatible.
+Installing collected packages: botocore, awscli
+  Found existing installation: botocore 1.17.50
+    Uninstalling botocore-1.17.50:
+      Successfully uninstalled botocore-1.17.50
+  Found existing installation: awscli 1.18.127
+    Uninstalling awscli-1.18.127:
+      Successfully uninstalled awscli-1.18.127
+Successfully installed awscli-1.18.181 botocore-1.19.21
+WARNING: You are using pip version 19.3.1; however, version 20.2.4 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+
+[Container] 2020/11/19 01:27:14 Phase complete: INSTALL State: SUCCEEDED
+[Container] 2020/11/19 01:27:14 Phase context status code:  Message: 
+[Container] 2020/11/19 01:27:14 Entering phase PRE_BUILD
+[Container] 2020/11/19 01:27:14 Running command TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+
+[Container] 2020/11/19 01:27:14 Running command sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' simple-jwt-api.yml
+
+[Container] 2020/11/19 01:27:14 Running command sed -i 's@JWT_SECRET_VALUE@'"$JWT_SECRET"'@' simple-jwt-api.yml
+
+[Container] 2020/11/19 01:27:14 Running command $(aws ecr get-login --no-include-email)
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+[Container] 2020/11/19 01:27:15 Running command export KUBECONFIG=$HOME/.kube/config
+
+[Container] 2020/11/19 01:27:15 Phase complete: PRE_BUILD State: SUCCEEDED
+[Container] 2020/11/19 01:27:15 Phase context status code:  Message: 
+[Container] 2020/11/19 01:27:15 Entering phase BUILD
+[Container] 2020/11/19 01:27:15 Running command echo $REPOSITORY_URI
+262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-j3o273fptdjn
+
+[Container] 2020/11/19 01:27:15 Running command echo $TAG
+Deploy-Flask-App-to-Kubernetes-Using-EKS.master..2020-11-19.01.27.14.84244ce8
+
+[Container] 2020/11/19 01:27:15 Running command docker build --tag $REPOSITORY_URI:$TAG .
+Sending build context to Docker daemon  78.33MB
+
+Step 1/6 : FROM python:stretch
+stretch: Pulling from library/python
+092586df9206: Pulling fs layer
+ef599477fae0: Pulling fs layer
+4530c6472b5d: Pulling fs layer
+d34d61487075: Pulling fs layer
+87fc2710b63f: Pulling fs layer
+f142141aaad3: Pulling fs layer
+12eb19f5f2be: Pulling fs layer
+d34466b69a2a: Pulling fs layer
+fd8a0746ef83: Pulling fs layer
+f142141aaad3: Waiting
+12eb19f5f2be: Waiting
+d34466b69a2a: Waiting
+fd8a0746ef83: Waiting
+d34d61487075: Waiting
+87fc2710b63f: Waiting
+4530c6472b5d: Verifying Checksum
+4530c6472b5d: Download complete
+ef599477fae0: Verifying Checksum
+ef599477fae0: Download complete
+092586df9206: Download complete
+f142141aaad3: Verifying Checksum
+f142141aaad3: Download complete
+d34d61487075: Verifying Checksum
+d34d61487075: Download complete
+d34466b69a2a: Verifying Checksum
+d34466b69a2a: Download complete
+12eb19f5f2be: Download complete
+fd8a0746ef83: Verifying Checksum
+fd8a0746ef83: Download complete
+87fc2710b63f: Verifying Checksum
+87fc2710b63f: Download complete
+092586df9206: Pull complete
+ef599477fae0: Pull complete
+4530c6472b5d: Pull complete
+d34d61487075: Pull complete
+87fc2710b63f: Pull complete
+f142141aaad3: Pull complete
+12eb19f5f2be: Pull complete
+d34466b69a2a: Pull complete
+fd8a0746ef83: Pull complete
+Digest: sha256:1b82f268fce299d627c23a6205cadc66dc60f46ea091e618e1ee68d9aa29b356
+Status: Downloaded newer image for python:stretch
+ ---> b9d77e48a75c
+Step 2/6 : COPY . /app
+ ---> dd58501da6a1
+Step 3/6 : WORKDIR /app
+ ---> Running in c3e25a3c2261
+Removing intermediate container c3e25a3c2261
+ ---> ab614392b205
+Step 4/6 : RUN pip install --upgrade pip
+ ---> Running in d68b9338b1c4
+Collecting pip
+  Downloading https://files.pythonhosted.org/packages/cb/28/91f26bd088ce8e22169032100d4260614fc3da435025ff389ef1d396a433/pip-20.2.4-py2.py3-none-any.whl (1.5MB)
+Installing collected packages: pip
+  Found existing installation: pip 19.2.3
+    Uninstalling pip-19.2.3:
+      Successfully uninstalled pip-19.2.3
+Successfully installed pip-20.2.4
+Removing intermediate container d68b9338b1c4
+ ---> a10407855408
+Step 5/6 : RUN pip install -r requirements.txt
+ ---> Running in fb4f6ae829e8
+Collecting pyjwt
+  Downloading PyJWT-1.7.1-py2.py3-none-any.whl (18 kB)
+Collecting flask
+  Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+Collecting gunicorn
+  Downloading gunicorn-20.0.4-py2.py3-none-any.whl (77 kB)
+Collecting pytest
+  Downloading pytest-6.1.2-py3-none-any.whl (272 kB)
+Collecting click>=5.1
+  Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+Collecting Jinja2>=2.10.1
+  Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+Collecting itsdangerous>=0.24
+  Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+Collecting Werkzeug>=0.15
+  Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+Requirement already satisfied: setuptools>=3.0 in /usr/local/lib/python3.7/site-packages (from gunicorn->-r requirements.txt (line 3)) (41.2.0)
+Collecting py>=1.8.2
+  Downloading py-1.9.0-py2.py3-none-any.whl (99 kB)
+Collecting importlib-metadata>=0.12; python_version < "3.8"
+  Downloading importlib_metadata-2.0.0-py2.py3-none-any.whl (31 kB)
+Collecting attrs>=17.4.0
+  Downloading attrs-20.3.0-py2.py3-none-any.whl (49 kB)
+Collecting toml
+  Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+Collecting iniconfig
+  Downloading iniconfig-1.1.1-py2.py3-none-any.whl (5.0 kB)
+Collecting packaging
+  Downloading packaging-20.4-py2.py3-none-any.whl (37 kB)
+Collecting pluggy<1.0,>=0.12
+  Downloading pluggy-0.13.1-py2.py3-none-any.whl (18 kB)
+Collecting MarkupSafe>=0.23
+  Downloading MarkupSafe-1.1.1-cp37-cp37m-manylinux1_x86_64.whl (27 kB)
+Collecting zipp>=0.5
+  Downloading zipp-3.4.0-py3-none-any.whl (5.2 kB)
+Collecting six
+  Downloading six-1.15.0-py2.py3-none-any.whl (10 kB)
+Collecting pyparsing>=2.0.2
+  Downloading pyparsing-2.4.7-py2.py3-none-any.whl (67 kB)
+Installing collected packages: pyjwt, click, MarkupSafe, Jinja2, itsdangerous, Werkzeug, flask, gunicorn, py, zipp, importlib-metadata, attrs, toml, iniconfig, six, pyparsing, packaging, pluggy, pytest
+Successfully installed Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 attrs-20.3.0 click-7.1.2 flask-1.1.2 gunicorn-20.0.4 importlib-metadata-2.0.0 iniconfig-1.1.1 itsdangerous-1.1.0 packaging-20.4 pluggy-0.13.1 py-1.9.0 pyjwt-1.7.1 pyparsing-2.4.7 pytest-6.1.2 six-1.15.0 toml-0.10.2 zipp-3.4.0
+Removing intermediate container fb4f6ae829e8
+ ---> 26d6b864008c
+Step 6/6 : ENTRYPOINT ["gunicorn", "-b", ":8080", "main:APP"]
+ ---> Running in d5632a513fc3
+Removing intermediate container d5632a513fc3
+ ---> 0e4c3828cda5
+Successfully built 0e4c3828cda5
+Successfully tagged 262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-j3o273fptdjn:Deploy-Flask-App-to-Kubernetes-Using-EKS.master..2020-11-19.01.27.14.84244ce8
+
+[Container] 2020/11/19 01:27:48 Phase complete: BUILD State: SUCCEEDED
+[Container] 2020/11/19 01:27:48 Phase context status code:  Message: 
+[Container] 2020/11/19 01:27:48 Entering phase POST_BUILD
+[Container] 2020/11/19 01:27:48 Running command docker push $REPOSITORY_URI:$TAG
+The push refers to repository [262253367821.dkr.ecr.us-west-2.amazonaws.com/ecrdockerrepository-j3o273fptdjn]
+1a4e4ac6bc2f: Preparing
+a548d25cfc00: Preparing
+ef6d601ecefd: Preparing
+611ec0189160: Preparing
+f6c506432da1: Preparing
+f81368f5f171: Preparing
+2cadd3d84047: Preparing
+409170aec809: Preparing
+2e669e0134f5: Preparing
+8bacec4e3446: Preparing
+26b1991f37bd: Preparing
+55e6b89812f3: Preparing
+f81368f5f171: Waiting
+2e669e0134f5: Waiting
+8bacec4e3446: Waiting
+26b1991f37bd: Waiting
+2cadd3d84047: Waiting
+409170aec809: Waiting
+55e6b89812f3: Waiting
+f6c506432da1: Pushed
+a548d25cfc00: Pushed
+611ec0189160: Pushed
+1a4e4ac6bc2f: Pushed
+ef6d601ecefd: Pushed
+2cadd3d84047: Pushed
+f81368f5f171: Pushed
+8bacec4e3446: Pushed
+26b1991f37bd: Pushed
+2e669e0134f5: Pushed
+55e6b89812f3: Pushed
+409170aec809: Pushed
+Deploy-Flask-App-to-Kubernetes-Using-EKS.master..2020-11-19.01.27.14.84244ce8: digest: sha256:d6198392fc8f7319d447c8bcc3d7963facdcd8c842ebfbaf125f85834fe12e79 size: 2852
+
+[Container] 2020/11/19 01:28:30 Running command CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
+
+[Container] 2020/11/19 01:28:31 Running command export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+
+[Container] 2020/11/19 01:28:31 Running command export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+
+[Container] 2020/11/19 01:28:31 Running command export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+
+[Container] 2020/11/19 01:28:31 Running command export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+
+[Container] 2020/11/19 01:28:31 Running command aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+Added new context arn:aws:eks:us-west-2:262253367821:cluster/simple-jwt-api to /root/.kube/config
+
+[Container] 2020/11/19 01:28:32 Running command echo $JWT_SECRET > .env
+
+[Container] 2020/11/19 01:28:32 Running command kubectl apply -f simple-jwt-api.yml
+service/simple-jwt-api created
+deployment.apps/simple-jwt-api created
+
+[Container] 2020/11/19 01:28:33 Running command printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+
+[Container] 2020/11/19 01:28:33 Running command pwd
+/codebuild/output/src953161420/src
+
+[Container] 2020/11/19 01:28:33 Running command ls
+Dockerfile
+README.md
+aws-auth-patch.yml
+aws-iam-authenticator
+build.json
+buildspec.yml
+ci-cd-codepipeline.cfn.yml
+iam-role-policy
+kubectl
+main.py
+requirements.txt
+run.sh
+simple-jwt-api.yml
+simple_jwt_api.yml
+test_main.py
+
+[Container] 2020/11/19 01:28:34 Phase complete: POST_BUILD State: SUCCEEDED
+[Container] 2020/11/19 01:28:34 Phase context status code:  Message: 
+[Container] 2020/11/19 01:28:34 Expanding base directory path: .
+[Container] 2020/11/19 01:28:34 Assembling file list
+[Container] 2020/11/19 01:28:34 Expanding .
+[Container] 2020/11/19 01:28:34 Expanding file paths for base directory .
+[Container] 2020/11/19 01:28:34 Assembling file list
+[Container] 2020/11/19 01:28:34 Expanding build.json
+[Container] 2020/11/19 01:28:34 Found 1 file(s)

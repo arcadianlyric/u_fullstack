@@ -27,3 +27,6 @@ htmlcov/
 # Direnv
 .envrc
 .direnv
+
+new_user_credentials.csv
+setup/
