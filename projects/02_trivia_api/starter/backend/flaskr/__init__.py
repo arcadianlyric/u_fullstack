@@ -44,7 +44,7 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
-    @app.route('/categories')
+    @app.route('/categories', methods=['GET'])
     def get_categories():
         '''
         @TODO:
@@ -105,7 +105,6 @@ def create_app(test_config=None):
                             'success': True,
                             'deleted_question': question_id
             })
-
         except Exception as err:
             print(err)
             abort(400)
@@ -124,17 +123,17 @@ def create_app(test_config=None):
     def post_questions():
         try:
             body = request.get_json()
-            new_question = body.get('question', None)
-            new_answer = body.get('answer', None)
-            new_difficulty = body.get('difficulty', None)
-            new_category = body.get('category', None)
-
-            questions = Question(
-                                question=new_question, answer=new_answer,
-                                difficulty=new_difficulty, category=new_category)
-            questions.insert()
-            selections = Question.query.order_by(Question.id).all()
-            current_question = paginate(request, selections)
+            if body: 
+                new_question = body.get('question', None)
+                new_answer = body.get('answer', None)
+                new_difficulty = body.get('difficulty', None)
+                new_category = body.get('category', None)
+                questions = Question(
+                                    question=new_question, answer=new_answer,
+                                    difficulty=new_difficulty, category=new_category)
+                questions.insert()
+                selections = Question.query.order_by(Question.id).all()
+                current_question = paginate(request, selections)
 
             return jsonify({
                             'success': True,
@@ -157,24 +156,20 @@ def create_app(test_config=None):
         only question that include that string within their question.
         Try using the word "title" to start.
         '''
-        try:
-            body = request.get_json()
-            search_term = body.get('searchTerm')
+        body = request.get_json()
+        search_term = body.get('searchTerm')
 
-            if search_term:
-                selection = Question.query.filter(Question.question.ilike('%{}%'.format(search_term)))
-                total_questions, questions = paginate(request, selection.all())
-                if total_questions == 0:
-                    abort(404)
+        if search_term:
+            selection = Question.query.filter(Question.question.ilike('%{}%'.format(search_term)))
+            total_questions, questions = paginate(request, selection.all())
+            if total_questions == 0:
+                abort(404)
 
-                return jsonify({
-                    'success': True,
-                    'questions': questions,
-                    'total_questions': total_questions
-                })
-        except Exception as err:
-            print(err)
-            abort(400)
+            return jsonify({
+                'success': True,
+                'questions': questions,
+                'total_questions': total_questions
+            })
 
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_cagetories(category_id):
@@ -214,7 +209,7 @@ def create_app(test_config=None):
         try:
             body = request.get_json()
             if not body:
-                abort(404)
+                abort(400)
 
             previous_questions = body.get('previous_questions', [])
             category = body.get('quiz_category', None)
