@@ -75,7 +75,9 @@ GET '/categories'
 GET ...
 POST ...
 DELETE ...
-
+```
+### Endpoints
+```
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
@@ -88,6 +90,131 @@ GET '/categories'
 '6' : "Sports"}
 
 ```
+
+```
+GET '/questions'
+- Fetch all questions
+- Request Arguments: None
+- Return An object with questions, total questions, categories. 
+{
+    "categories": {
+        "1": "science",
+        "2": "art",
+        "3": "geography",
+        "4": "history",
+        "5": "entertainment",
+        "6": "sports"
+    },
+    "questions": [
+        {
+            "answer": "Maya Angelou",
+            "category": 4,
+            "difficulty": 2,
+            "id": 5,
+            "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+        },
+        ...
+    ],
+    "total_questions": 43
+}
+```
+
+```
+DELET '/questions/<int:question_id>'
+- Delect questions by id
+- Request question_id
+- Return an object with deleted question_id and status if successful 
+{
+    "deleted_question": 6,
+    "success": true
+}
+```
+
+```
+POST '/questions'
+- Add a new question
+- Request
+new_question = {
+            "question": "What is the 5th element ?",
+            "answer": "B",
+            "difficulty": 1,
+            "category": 1
+        }
+- Return created new question id, total_questions, paginated questions, status
+{
+    "created": 48,
+    "questions": [
+        42,
+        [
+            {
+                "answer": "Apollo 13",
+                "category": 5,
+                "difficulty": 4,
+                "id": 2,
+                "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+            },
+            ...
+        ]
+    ],
+    "success": true,
+    "total_questions": 42
+}
+```
+
+```
+POST '/questions/search'
+- Fetches questions that match search term
+- Request search term
+- Return an object of questions match the search term, total_questions, status
+{
+    'questions': [{
+    'answer': 'Edward Scissorhands', 
+    'category': 5, 
+    'difficulty': 3, 
+    'id': 6, 
+    'question': 'What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?'
+    }], 
+    'success': True, 
+    'total_questions': 1
+    }
+```
+
+```
+GET '/categories/<int:category_id>/questions'
+- Fetch questions by category_id
+- Request category_id
+- Return all questions in the category
+{
+    "questions": [
+        {
+            "answer": "The Liver",
+            "category": 1,
+            "difficulty": 4,
+            "id": 20,
+            "question": "What is the heaviest organ in the human body?"
+        },
+        ...
+}
+```
+
+```
+POST '/quizzes'
+- Randomly select a question in a category that is not included in previous questions as a quizz
+- Request category_id 
+- Return selected question, status
+{
+    "questions": 
+        {
+            "answer": "The Liver",
+            "category": 1,
+            "difficulty": 4,
+            "id": 20,
+            "question": "What is the heaviest organ in the human body?"
+        },
+    "success": True
+}
+```
+
 
 
 ## Testing

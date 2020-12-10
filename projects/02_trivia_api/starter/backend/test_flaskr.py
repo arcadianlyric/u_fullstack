@@ -45,18 +45,18 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['categories'])
         
     def test_get_questions(self):
-        res = self.client().get('/categories')
+        res = self.client().get('/questions')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['categories'])
+        self.assertTrue(data['questions'])
         
 
     def test_delete_questions(self):
-        res = self.client().delete('/questions/5')
+        res = self.client().delete('/questions/48')
         data = json.loads(res.data)
 
-        questions = Question.query.filter(Question.id == 5).one_or_none()
+        questions = Question.query.filter(Question.id ==48).one_or_none()
         
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -68,6 +68,7 @@ class TriviaTestCase(unittest.TestCase):
         response = self.client().post('/questions/search', json={'searchTerm':'title'})
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
+        print(data)
         self.assertGreater(len(data.get('questions')), 0)
         for question in data.get('questions'):
             print(question)
@@ -86,10 +87,10 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_post_questions(self):
         new_question = {
-            'question': 'What is the 5th element ?',
-            'answer': 'B',
-            'difficulty': 1,
-            'category': 1
+            "question": "What is the 5th element ?",
+            "answer": "B",
+            "difficulty": 1,
+            "category": 1
         }
 
         res = self.client().post('/questions', json=new_question)

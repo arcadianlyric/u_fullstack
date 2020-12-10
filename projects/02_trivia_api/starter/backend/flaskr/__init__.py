@@ -105,28 +105,29 @@ def create_app(test_config=None):
     '''
     try: # encountered error name 'question_id' is not defined when try missing a endent
       question = Question.query.get(question_id)
-      if question:
-        question.delete()
+      if not question:
+        abort(404)
+      question.delete()
       return jsonify({
-        'success': True
+        'success': True,
+        'deleted_question': question_id
       })
 
     except:
       abort(400)
 
+  '''
+  @TODO: 
+  Create an endpoint to POST a new question, 
+  which will require the question and answer text, 
+  category, and difficulty score.
 
+  TEST: When you submit a question on the "Add" tab, 
+  the form will clear and the question will appear at the end of the last page
+  of the questions list in the "List" tab.  
+  '''
   @app.route('/questions', methods=['POST'])
   def post_questions():
-    '''
-    @TODO: 
-    Create an endpoint to POST a new question, 
-    which will require the question and answer text, 
-    category, and difficulty score.
-
-    TEST: When you submit a question on the "Add" tab, 
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.  
-    '''
     try:
       body = request.get_json()
       new_question = body.get('question', None)
@@ -134,7 +135,8 @@ def create_app(test_config=None):
       new_difficulty = body.get('difficulty', None)
       new_category = body.get('category', None)
 
-      questions = Question(question=new_question, answer=new_answer, difficulty=new_difficulty, category=new_category)
+      questions = Question(question=new_question, answer=new_answer,
+                           difficulty=new_difficulty, category=new_category)
       questions.insert()
       selections = Question.query.order_by(Question.id).all()
       current_question = paginate(request, selections)
@@ -145,7 +147,7 @@ def create_app(test_config=None):
         'questions': current_question,
         'total_questions': len(Question.query.all())
       })
-    
+
     except:
       abort(400)
 
@@ -181,7 +183,7 @@ def create_app(test_config=None):
     except:
         abort(400)
 
-  @app.route('/categories/<int:category_id>/questions')
+  @app.route('/categories/<int:category_id>/questions', methods=['GET'])
   def get_questions_by_cagetories(category_id):
     '''
     @TODO: 
@@ -271,6 +273,18 @@ def create_app(test_config=None):
     return jsonify({
       'message': 'Unprocessable Entity'
     }), 422
+
+  @app.errorhandler(500)
+  def internal_sever_error(error):
+    return jsonify({
+      'message': 'Internal Server Error'
+    }), 500
+
+  @app.errorhandler(400)
+  def bad_request(error):
+    return jsonify({
+      'message': 'Bad request'
+    }), 400
 
   return app
 
