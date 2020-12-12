@@ -18,3 +18,4 @@ LocalStore/
 FlaskRecap/
 .ipynb_checkpoints/
 projects/04-Deploy-Flask-App-to-Kubernetes-Using-EKS-master/examples/
+projects/capstone/starter/test_out.txt
