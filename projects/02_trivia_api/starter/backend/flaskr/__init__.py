@@ -31,12 +31,12 @@ def create_app(test_config=None):
     setup_db(app)
 
     '''
-    @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
+    @done: Set up CORS. Allow '*' for origins. Delete the sample route after completing the dones
     '''
     cors = CORS(app, resources={r"*": {"origins": "*"}})
 
     '''
-    @TODO: Use the after_request decorator to set Access-Control-Allow
+    @done: Use the after_request decorator to set Access-Control-Allow
     '''
     @app.after_request
     def after_request(response):
@@ -47,7 +47,7 @@ def create_app(test_config=None):
     @app.route('/categories', methods=['GET'])
     def get_categories():
         '''
-        @TODO:
+        @done:
         Create an endpoint to handle GET requests
         for all available categories.
         '''
@@ -61,7 +61,7 @@ def create_app(test_config=None):
     @app.route('/questions', methods=['GET'])
     def get_questions():
         '''
-        @TODO:
+        @done:
         Create an endpoint to handle GET requests for questions,
         including pagination (every 10 questions).
         This endpoint should return a list of questions,
@@ -90,7 +90,7 @@ def create_app(test_config=None):
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         '''
-        @TODO:
+        @done:
         Create an endpoint to DELETE question using a question ID.
 
         TEST: When you click the trash icon next to a question, the question will be removed.
@@ -110,7 +110,7 @@ def create_app(test_config=None):
             abort(400)
 
     '''
-    @TODO:
+    @done:
     Create an endpoint to POST a new question,
     which will require the question and answer text,
     category, and difficulty score.
@@ -148,7 +148,7 @@ def create_app(test_config=None):
     @app.route('/questions/search', methods=['POST'])
     def search_questions():
         '''
-        @TODO:
+        @done:
         Create a POST endpoint to get questions based on a search term.
         It should return any questions for whom the search term
         is a substring of the question.
@@ -174,7 +174,7 @@ def create_app(test_config=None):
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_cagetories(category_id):
         '''
-        @TODO:
+        @done:
         Create a GET endpoint to get questions based on category.
         TEST: In the "List" tab / main screen, clicking on one of the
         categories in the left column will cause only questions of that
@@ -196,7 +196,7 @@ def create_app(test_config=None):
     @app.route('/quizzes', methods=['POST'])
     def post_quizzes():
         '''
-        @TODO:
+        @done:
         Create a POST endpoint to get questions to play the quiz.
         This endpoint should take category and previous question parameters
         and return a random questions within the given category,
@@ -221,23 +221,22 @@ def create_app(test_config=None):
             if previous_questions:
                 selection = selection.filter(Question.id.notin_(previous_questions))
             all = [s.format() for s in selection.all()]
+            if len(all) == 0:
+                return jsonify({
+                                'success': True
+                })
             questions = random.choice(all)
-            if questions:
+            if questions is not None:
                 return jsonify({
                                 'success': True,
                                 'question': questions
-                })
-            else:
-                return jsonify({
-                                'success': True,
-                                'question': 'no more question'
                 })
         except Exception as err:
             print(err)
             abort(400)
 
     '''
-    @TODO:
+    @done:
     Create error handlers for all expected errors
     including 404 and 422.
     '''

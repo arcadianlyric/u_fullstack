@@ -39,6 +39,10 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         data = json.loads(res.data)
         self.assertGreater(len(data['categories']), 0)
+
+    def test_get_categories_wrong_request(self):
+        res = self.client().get('/categorie')
+        self.assertEqual(res.status_code, 404)
         
     def test_get_questions(self):
         res = self.client().get('/questions')
@@ -53,15 +57,19 @@ class TriviaTestCase(unittest.TestCase):
         self.assertIn('difficulty', question.keys())
         self.assertIn('category', question.keys())
     
-    # def test_delete_questions(self):
-    #     res = self.client().delete('/questions/77')
-    #     data = json.loads(res.data)
+    def test_get_questions_wrong_endpoint(self):
+        res = self.client().get('/questions/9')
+        self.assertEqual(res.status_code, 405)
 
-    #     questions = Question.query.filter(Question.id ==48).one_or_none()
+    def test_delete_questions(self):
+        res = self.client().delete('/questions/7')
+        data = json.loads(res.data)
+
+        questions = Question.query.filter(Question.id ==48).one_or_none()
         
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(questions, None)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(questions, None)
 
     def test_delete_questions_empty(self):
             res = self.client().delete('/questions/')
