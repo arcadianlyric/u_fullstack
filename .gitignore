@@ -10,12 +10,13 @@ _config.yml
 .DS_Store
 projects/03_coffee_shop_full_stack/starter_code/frontend/node_modules
 projects/03_coffee_shop_full_stack/starter_code/frontend/package
-
+.ipynb_checkpoints/
 pj1/
 pj2/
 pj3/
 LocalStore/
 FlaskRecap/
 .ipynb_checkpoints/
-projects/04-Deploy-Flask-App-to-Kubernetes-Using-EKS-master/examples/
-projects/capstone/starter/test_out.txt
+projects/04-Deploy-Flask-App-to-Kubernetes-Using-EKS-master/
+projects/capstone/
+
