@@ -17,6 +17,6 @@ pj3/
 LocalStore/
 FlaskRecap/
 .ipynb_checkpoints/
-projects/04-Deploy-Flask-App-to-Kubernetes-Using-EKS-master/
-projects/capstone/
+04-Deploy-Flask-App-to-Kubernetes-Using-EKS-master/
+capstone/
 
