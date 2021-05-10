@@ -8,7 +8,7 @@ The site is capable of doing the following, if not more, using a PostgreSQL data
 2) searching for venues and artists.  
 3) learning more about a specific artist or venue.  
 3) learning more about a specific artist or venue.  
-![img](https://github.com/arcadianlyric/udacity_fullstack/tree/master/projects/01_fyyur/starter_code/static/img/fyyur.png)
+![img](projects/01_fyyur/starter_code/static/img/fyyur.png)
 
 2. Trivia API  
 To create a trivia app to hold trivia quiz, pop up questions and calculate scores. The application must:  
